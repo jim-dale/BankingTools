@@ -1,0 +1,69 @@
+﻿
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:USASCII
+CHARSET:1252
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+
+<OFX>
+  <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS>
+        <CODE>0
+        <SEVERITY>INFO
+      </STATUS>
+      <DTSERVER>19961029101003
+      <LANGUAGE>ENG
+      <DTPROFUP>19961029101003 
+      <DTACCTUP>19961029101003  
+    </SONRS>
+  </SIGNONMSGSRSV1>
+
+  <BANKMSGSRSV1>
+    <STMTTRNRS>
+      <TRNUID>1001
+      <STATUS>
+        <CODE>0
+        <SEVERITY>INFO
+      </STATUS>
+      <STMTRS>
+        <CURDEF>USD
+        <BANKACCTFROM>
+          <BANKID>121099999
+          <ACCTID>999988
+          <ACCTTYPE>CHECKING
+        </BANKACCTFROM>
+        <BANKTRANLIST>
+          <DTSTART>19961001
+          <DTEND>19961028
+          <STMTTRN>
+            <TRNTYPE>CHECK
+            <DTPOSTED>19961004
+            <TRNAMT>-200.00
+            <FITID>00002
+            <CHECKNUM>1000
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>ATM
+            <DTPOSTED>19961020
+            <DTUSER>19961020
+            <TRNAMT>-300.00
+            <FITID>00003
+          </STMTTRN>
+        </BANKTRANLIST>
+        <LEDGERBAL>
+          <BALAMT>200.29
+          <DTASOF>199610291120
+        </LEDGERBAL>
+        <AVAILBAL>
+          <BALAMT>200.29
+          <DTASOF>199610291120
+        </AVAILBAL>
+      </STMTRS>
+    </STMTTRNRS>
+  </BANKMSGSRSV1>
+</OFX>
