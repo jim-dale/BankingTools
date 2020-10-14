@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="ExcelMapper" Version="5.1.180" />
-    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="3.1.9" />
   </ItemGroup>
 
   <ItemGroup>
