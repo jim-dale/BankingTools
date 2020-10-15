@@ -99,7 +99,7 @@ namespace OfxNet
 
         private static bool TryParseDateTimeOffset(string str, DateTimeStyles style, out DateTimeOffset result)
         {
-            // Remove optional time zone name from string to be parsed
+            // Remove possible time zone name from string to be parsed
             var noTimeZoneName = Regex.Replace(str, OfxConstants.TimeZoneRegexPattern, OfxConstants.TimeZoneReplacement);
 
             return DateTimeOffset.TryParseExact(noTimeZoneName,

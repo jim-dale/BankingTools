@@ -87,6 +87,7 @@ namespace OfxNet
             "yyyyMMdd",
             "yyyyMMddHHmm",
             "yyyyMMddHHmmss",
+            "yyyyMMddHHmmss[z]",
             "yyyyMMddHHmmss.fff",
             "yyyyMMddHHmmss.fff[z]"
         };

@@ -9,7 +9,7 @@
     <Description>Parse Open Financial Exchange (OFX) files. Supports SGML and XML formatted OFX files.</Description>
     <PackageTags>OFX</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.2.2</Version>
+    <Version>1.0.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

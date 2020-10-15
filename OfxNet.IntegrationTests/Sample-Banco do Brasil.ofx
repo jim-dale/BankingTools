@@ -1,0 +1,79 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:USASCII
+CHARSET:1252
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+
+<OFX>
+   <SIGNONMSGSRSV1>
+      <SONRS>
+         <STATUS>
+            <CODE>0</CODE>
+            <SEVERITY>INFO</SEVERITY>
+         </STATUS>
+         <DTSERVER>20140327120000[-3:BRT]</DTSERVER>
+         <LANGUAGE>POR</LANGUAGE>
+         <FI>
+            <ORG>Banco do Brasil</ORG>
+            <FID>1</FID>
+         </FI>
+      </SONRS>
+   </SIGNONMSGSRSV1>
+   <BANKMSGSRSV1>
+      <STMTTRNRS>
+         <TRNUID>1</TRNUID>
+         <STATUS>
+            <CODE>0</CODE>
+            <SEVERITY>INFO</SEVERITY>
+         </STATUS>
+         <STMTRS>
+            <CURDEF>BRL</CURDEF>
+            <BANKACCTFROM>
+               <BANKID>1</BANKID>
+               <BRANCHID>9999-9</BRANCHID>
+               <ACCTID>99999-9</ACCTID>
+               <ACCTTYPE>CHECKING</ACCTTYPE>
+            </BANKACCTFROM>
+            <BANKTRANLIST>
+               <DTSTART>20140224120000[-3:BRT]</DTSTART>
+               <DTEND>20140327120000[-3:BRT]</DTEND>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20140305120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>3444.80</TRNAMT>
+                  <FITID>2014030503444800</FITID>
+                  <CHECKNUM>300000429583</CHECKNUM>
+                  <REFNUM>100.300.000.429.583</REFNUM>
+                  <MEMO>Transferência Agendada</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20140305120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-22.25</TRNAMT>
+                  <FITID>20140305122250</FITID>
+                  <CHECKNUM>000000070561</CHECKNUM>
+                  <REFNUM>70.561</REFNUM>
+                  <MEMO>Compra com Cartão</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20140305120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-100.00</TRNAMT>
+                  <FITID>201403051100000</FITID>
+                  <CHECKNUM>000000072644</CHECKNUM>
+                  <REFNUM>72.644</REFNUM>
+                  <MEMO>Saque</MEMO>
+               </STMTTRN>
+            </BANKTRANLIST>
+            <LEDGERBAL>
+               <BALAMT>9999.99</BALAMT>
+               <DTASOF>20140327120000[-3:BRT]</DTASOF>
+            </LEDGERBAL>
+         </STMTRS>
+      </STMTTRNRS>
+   </BANKMSGSRSV1>
+</OFX>

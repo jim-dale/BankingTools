@@ -24,15 +24,35 @@ namespace OfxNet
 
         public static OfxDocument Load(string path)
         {
+            return Load(path, OfxDocumentSettings.Default);
+        }
+
+        public static OfxDocument Load(string path, OfxDocumentSettings settings)
+        {
             OfxDocument result;
 
             if (SgmlDocument.TryLoad(path, out SgmlDocument sgmlDocument))
             {
-                result = new OfxDocument(sgmlDocument);
+                result = new OfxDocument(sgmlDocument, settings);
             }
             else
             {
-                result = new OfxDocument(XDocument.Load(path));
+                result = new OfxDocument(XDocument.Load(path), settings);
+            }
+
+            return result;
+        }
+
+        public IOfxElement GetRoot()
+        {
+            IOfxElement result = default;
+            if (_document is SgmlDocument sgmlDocument)
+            {
+                result = sgmlDocument.Root;
+            }
+            else if (_document is XDocument xmlDocument)
+            {
+                result = new XElementAdapter(xmlDocument.Root);
             }
 
             return result;
@@ -40,19 +60,14 @@ namespace OfxNet
 
         public IEnumerable<OfxStatement> GetStatements()
         {
-            IOfxElement root = default;
-            if (_document is SgmlDocument sgmlDocument)
-            {
-                root = sgmlDocument.Root;
-            }
-            else if (_document is XDocument xmlDocument)
-            {
-                root = new XElementAdapter(xmlDocument.Root);
-            }
+            var element = GetRoot();
 
-            return (root is null)
-                ? Enumerable.Empty<OfxStatement>()
-                : GetBankStatements(root).Concat(GetCreditCardStatements(root));
+            return GetStatements(element);
+        }
+
+        public IEnumerable<OfxStatement> GetStatements(IOfxElement element)
+        {
+            return GetBankStatements(element).Concat(GetCreditCardStatements(element));
         }
 
         public IEnumerable<OfxStatement> GetBankStatements(IOfxElement element)
