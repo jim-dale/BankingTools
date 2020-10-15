@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -74,7 +74,7 @@ namespace OfxNet.IntegrationTests
         [TestMethod]
         public void CanParseBancoDoBrasil()
         {
-            var actual = OfxDocument.Load(@"Sample-Banco do Brasil.ofx")
+            var actual = OfxDocument.Load("Sample-Banco do Brasil.ofx")
                 .GetStatements();
 
             var statement = actual.First();
@@ -86,9 +86,10 @@ namespace OfxNet.IntegrationTests
             Assert.AreEqual(bankStatement.Account.BankId, "1");
 
             Assert.AreEqual(3, statement.TransactionList.Transactions.Count());
+
             CollectionAssert.AreEqual(
                 statement.TransactionList.Transactions.Select(x => x.Memo).ToArray(),
-                new string[] { "Transferência Agendada", "Compra com Cartão", "Saque" });
+                new string[] { "TransferÃªncia Agendada", "Compra com CartÃ£o", "Saque" });
         }
     }
 }

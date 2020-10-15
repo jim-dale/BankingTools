@@ -13,7 +13,7 @@ namespace OfxNet
             {
                 if (string.Equals("1252", item.Charset, StringComparison.OrdinalIgnoreCase))
                 {
-                    result = Encoding.GetEncoding("Windows-1252");
+                    result = Encoding.GetEncoding(1252);
                 }
                 else if (string.Equals("ISO-8859-1", item.Charset, StringComparison.OrdinalIgnoreCase))
                 {
@@ -29,9 +29,11 @@ namespace OfxNet
                     {
                         result = Encoding.GetEncoding(item.Charset);
                     }
+#pragma warning disable CA1031 // Justification - this is the exact exception thrown
                     catch (ArgumentException)
                     {
                     }
+#pragma warning restore CA1031
                 }
             }
             else if (string.Equals("UTF-8", item.Encoding, StringComparison.OrdinalIgnoreCase))
