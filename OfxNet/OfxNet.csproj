@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.1</TargetFrameworks>
-    <Authors>Jim Dale</Authors>
+    <TargetFramework>net6.0</TargetFramework>
+	<Authors>Jim Dale</Authors>
     <PackageProjectUrl>https://github.com/jim-dale/BankingTools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jim-dale/BankingTools</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
     <Description>Parse Open Financial Exchange (OFX) files. Supports SGML and XML formatted OFX files.</Description>
     <PackageTags>OFX</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.4.0</Version>
+    <Version>1.1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
