@@ -28,4 +28,4 @@ jobs:
       run: dotnet pack OfxNet/OfxNet.csproj --configuration Release
 
     - name: Publish NuGet
-      run: dotnet nuget push OfxNet/OfxNet.csproj --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet nuget push *.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
