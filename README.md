@@ -1,5 +1,5 @@
 # BankingTools
-Banking tools v1.1.0
+Banking tools v1.1.1
 
 [![.NET](https://github.com/jim-dale/BankingTools/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jim-dale/BankingTools/actions/workflows/dotnet.yml)
 [![Nuget](https://img.shields.io/nuget/v/OfxNet)](https://www.nuget.org/packages/OfxNet/)
