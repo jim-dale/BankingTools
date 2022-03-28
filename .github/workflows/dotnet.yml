@@ -23,8 +23,9 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
+
+    - name: Pack
+      run: dotnet pack OfxNet/OfxNet.csproj --configuration Release
+
     - name: Publish NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-        PROJECT_FILE_PATH: "OfxNet/OfxNet.csproj"
-        NUGET_KEY: ${{secrets.NUGET_APIKEY}}
+      run: dotnet nuget push OfxNet/OfxNet.csproj --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
