@@ -10,10 +10,12 @@
     <Description>Parse Open Financial Exchange (OFX) files. Supports SGML and XML formatted OFX files.</Description>
     <PackageTags>OFX</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.1.1.0</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>1.1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
 
