@@ -8,8 +8,8 @@ namespace OfxNet
     public class SgmlParser
     {
         private int _lineNumber;
-        private SgmlElement _root;
-        private SgmlElement _currentNode;
+        private SgmlElement? _root;
+        private SgmlElement? _currentNode;
 
         public SgmlElement Parse(string path, Encoding encoding)
         {
@@ -71,7 +71,7 @@ namespace OfxNet
             }
         }
 
-        private void ProcessValueTag(string tag, string value, string text)
+        private void ProcessValueTag(string tag, string? value, string text)
         {
             value = GetValue(value);
 
@@ -89,7 +89,7 @@ namespace OfxNet
             _currentNode = _currentNode.Parent;
         }
 
-        private SgmlParseResult TryParseLine(string line)
+        private SgmlParseResult? TryParseLine(string line)
         {
             var result = TryParseOpeningTag(line);
             if (result == default)
@@ -107,9 +107,9 @@ namespace OfxNet
             return result;
         }
 
-        private SgmlParseResult TryParseOpeningTag(string line)
+        private SgmlParseResult? TryParseOpeningTag(string line)
         {
-            SgmlParseResult result = default;
+            SgmlParseResult? result = default;
 
             var match = SgmlConstants.OpeningTagRegex.Match(line);
             if (match.Success && match.Groups.Count == 2)
@@ -119,9 +119,9 @@ namespace OfxNet
             return result;
         }
 
-        private SgmlParseResult TryParseClosingTag(string line)
+        private SgmlParseResult? TryParseClosingTag(string line)
         {
-            SgmlParseResult result = default;
+            SgmlParseResult? result = default;
 
             var match = SgmlConstants.ClosingTagRegex.Match(line);
             if (match.Success && match.Groups.Count == 2)
@@ -131,9 +131,9 @@ namespace OfxNet
             return result;
         }
 
-        private SgmlParseResult TryParseValueFullTag(string line)
+        private SgmlParseResult? TryParseValueFullTag(string line)
         {
-            SgmlParseResult result = default;
+            SgmlParseResult? result = default;
 
             var match = SgmlConstants.ValueFullTagRegex.Match(line);
             if (match.Success && match.Groups.Count == 4)
@@ -143,9 +143,9 @@ namespace OfxNet
             return result;
         }
 
-        private SgmlParseResult TryParseValuePartialTag(string line)
+        private SgmlParseResult? TryParseValuePartialTag(string line)
         {
-            SgmlParseResult result = default;
+            SgmlParseResult? result = default;
 
             var match = SgmlConstants.ValuePartialTagRegex.Match(line);
             if (match.Success && match.Groups.Count == 3)
@@ -155,7 +155,7 @@ namespace OfxNet
             return result;
         }
 
-        private string GetValue(string value)
+        private string? GetValue(string? value)
         {
             return WebUtility.HtmlDecode(value);
         }

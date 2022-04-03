@@ -81,7 +81,7 @@ namespace OfxNet
             return (OfxTransactionType)Enum.Parse(typeof(OfxTransactionType), value, true);
         }
 
-        public static OfxCorrectiveAction ParseCorrectiveAction(string value)
+        public static OfxCorrectiveAction ParseCorrectiveAction(string? value)
         {
             return string.IsNullOrEmpty(value)
                 ? OfxCorrectiveAction.NotSet

@@ -7,10 +7,10 @@ namespace OfxNet
     public class SgmlElement : IOfxElement
     {
         public string Name { get; }
-        public string Value { get; }
+        public string? Value { get; }
         public string Text { get; }
-        public SgmlElement Parent { get; }
-        public IList<SgmlElement> Children { get; private set; }
+        public SgmlElement? Parent { get; }
+        public IList<SgmlElement>? Children { get; private set; }
 
         public SgmlElement(string name, string text)
             : this(name, null, text, null)
@@ -22,7 +22,7 @@ namespace OfxNet
         {
         }
 
-        public SgmlElement(string name, string value, string text, SgmlElement parent)
+        public SgmlElement(string name, string? value, string text, SgmlElement? parent)
         {
             Name = name;
             Value = value;
@@ -41,9 +41,9 @@ namespace OfxNet
             return item;
         }
 
-        public IOfxElement Element(string name, StringComparer comparer)
+        public IOfxElement? Element(string name, StringComparer comparer)
         {
-            return Children.SingleOrDefault(e => comparer.Equals(name, e.Name));
+            return Children?.SingleOrDefault(e => comparer.Equals(name, e.Name));
         }
 
         public IEnumerable<IOfxElement> Elements(string name, StringComparer comparer)

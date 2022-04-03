@@ -7,6 +7,6 @@ namespace OfxNet
     {
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
-        public List<OfxStatementTransaction> Transactions { get; set; }
+        public List<OfxStatementTransaction> Transactions { get; set; } = new();
     }
 }
