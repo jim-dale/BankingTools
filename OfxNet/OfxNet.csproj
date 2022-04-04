@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-	<Authors>Jim Dale</Authors>
+    <Authors>Jim Dale</Authors>
     <PackageProjectUrl>https://github.com/jim-dale/BankingTools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jim-dale/BankingTools.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
