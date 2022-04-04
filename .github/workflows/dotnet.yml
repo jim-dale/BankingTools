@@ -23,12 +23,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build -t:build,pack --configuration Release --no-restore
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
-
-    - name: Pack
-      run: dotnet pack OfxNet/OfxNet.csproj --configuration Release
 
     - name: Publish NuGet
       run: dotnet nuget push **/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
