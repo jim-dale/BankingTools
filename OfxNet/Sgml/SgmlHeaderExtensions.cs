@@ -23,7 +23,7 @@ namespace OfxNet
                 {
                     result = Encoding.GetEncoding("us-ascii");
                 }
-                else
+                else if (item.Charset is not null)
                 {
                     try
                     {

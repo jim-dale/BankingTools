@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -31,7 +32,7 @@ namespace OfxNet
         {
             OfxDocument result;
 
-            if (SgmlDocument.TryLoad(path, out SgmlDocument sgmlDocument))
+            if (SgmlDocument.TryLoad(path, out SgmlDocument? sgmlDocument))
             {
                 result = new OfxDocument(sgmlDocument, settings);
             }
@@ -43,14 +44,14 @@ namespace OfxNet
             return result;
         }
 
-        public IOfxElement GetRoot()
+        public IOfxElement? GetRoot()
         {
-            IOfxElement result = default;
+            IOfxElement? result = default;
             if (_document is SgmlDocument sgmlDocument)
             {
                 result = sgmlDocument.Root;
             }
-            else if (_document is XDocument xmlDocument)
+            else if (_document is XDocument { Root: not null } xmlDocument)
             {
                 result = new XElementAdapter(xmlDocument.Root);
             }
@@ -116,7 +117,8 @@ namespace OfxNet
             }
         }
 
-        public OfxSignOn GetSignon(IOfxElement element)
+        [return: NotNullIfNotNull("element")]
+        public OfxSignOn? GetSignon(IOfxElement element)
         {
             return (element is null)
                 ? null
@@ -129,7 +131,8 @@ namespace OfxNet
                 };
         }
 
-        public OfxBankStatement GetBankStatement(IOfxElement element)
+        [return: NotNullIfNotNull("element")]
+        public OfxBankStatement? GetBankStatement(IOfxElement? element)
         {
             return (element is null)
                 ? null
@@ -168,7 +171,8 @@ namespace OfxNet
             };
         }
 
-        public OfxStatementTransaction GetStatementTransaction(IOfxElement element)
+        [return: NotNullIfNotNull("element")]
+        public OfxStatementTransaction? GetStatementTransaction(IOfxElement? element)
         {
             return (element is null)
                 ? null
@@ -199,7 +203,8 @@ namespace OfxNet
                 };
         }
 
-        public OfxCurrency GetCurrency(IOfxElement element)
+        [return: NotNullIfNotNull("element")]
+        public OfxCurrency? GetCurrency(IOfxElement? element)
         {
             return (element is null)
                 ? null
@@ -210,7 +215,8 @@ namespace OfxNet
                 };
         }
 
-        public OfxPayee GetPayee(IOfxElement element)
+        [return: NotNullIfNotNull("element")]
+        public OfxPayee? GetPayee(IOfxElement? element)
         {
             return (element is null)
                 ? null
@@ -228,7 +234,8 @@ namespace OfxNet
                 };
         }
 
-        public OfxAccountBalance GetAccountBalance(IOfxElement element)
+        [return: NotNullIfNotNull("element")]
+        public OfxAccountBalance? GetAccountBalance(IOfxElement? element)
         {
             return (element is null)
                 ? null
@@ -248,7 +255,8 @@ namespace OfxNet
             };
         }
 
-        public OfxBankAccount GetBankAccount(IOfxElement element)
+        [return: NotNullIfNotNull("element")]
+        public OfxBankAccount? GetBankAccount(IOfxElement? element)
         {
             return (element is null)
                 ? null
@@ -262,7 +270,8 @@ namespace OfxNet
                 };
         }
 
-        public OfxCreditCardAccount GetCreditCardAccount(IOfxElement element)
+        [return: NotNullIfNotNull("element")]
+        public OfxCreditCardAccount? GetCreditCardAccount(IOfxElement? element)
         {
             return (element is null)
                 ? null
@@ -275,31 +284,31 @@ namespace OfxNet
 
         private int GetAsInt(IOfxElement parent, string name)
         {
-            string value = GetAsString(parent, name);
+            string? value = GetAsString(parent, name);
             return int.Parse(value);
         }
 
         private int? GetAsNullableInt(IOfxElement parent, string name)
         {
-            string value = GetAsString(parent, name);
+            string? value = GetAsString(parent, name);
             return int.TryParse(value, out var result) ? result : default(int?);
         }
 
         private decimal GetAsDecimal(IOfxElement parent, string name)
         {
-            string value = GetAsString(parent, name);
+            string? value = GetAsString(parent, name);
             return decimal.Parse(value);
         }
 
         private DateTimeOffset GetAsDateTimeOffset(IOfxElement parent, string name)
         {
-            string value = GetAsString(parent, name);
+            string? value = GetAsString(parent, name);
             return OfxParser.ParseDateTime(value);
         }
 
         private DateTimeOffset? GetAsNullableDateTimeOffset(IOfxElement parent, string name)
         {
-            string value = GetAsString(parent, name);
+            string? value = GetAsString(parent, name);
             return OfxParser.ParseNullableDateTime(value);
         }
 
@@ -327,7 +336,7 @@ namespace OfxNet
                 GetAsString(parent, OfxConstants.CorrectAction));
         }
 
-        public string GetAsString(IOfxElement element, string first, string second)
+        public string? GetAsString(IOfxElement element, string first, string second)
         {
             var result = GetAsString(element, first);
             if (string.IsNullOrWhiteSpace(result))
@@ -338,7 +347,7 @@ namespace OfxNet
             return result;
         }
 
-        private string GetAsString(IOfxElement parent, string name)
+        private string? GetAsString(IOfxElement parent, string name)
         {
             var result = GetElement(parent, name)?.Value;
             if (Settings.TrimValues && string.IsNullOrEmpty(result) == false)
@@ -348,7 +357,7 @@ namespace OfxNet
             return result;
         }
 
-        private IEnumerable<IOfxElement> GetElements(IOfxElement parent, string name)
+        private IEnumerable<IOfxElement> GetElements(IOfxElement? parent, string name)
         {
             if (parent != null)
             {
@@ -360,12 +369,12 @@ namespace OfxNet
             }
         }
 
-        private IOfxElement GetElement(IOfxElement parent, string name)
+        private IOfxElement? GetElement(IOfxElement parent, string name)
         {
             return parent.Element(name, Settings.TagComparer);
         }
 
-        public IOfxElement GetElement(IOfxElement parent, string first, string second)
+        public IOfxElement? GetElement(IOfxElement parent, string first, string second)
         {
             return GetElement(parent, first) ?? GetElement(parent, second);
         }

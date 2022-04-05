@@ -8,7 +8,7 @@ namespace OfxNet
     {
         private int _lineNumber;
 
-        public SgmlHeader TryGetHeader(string path)
+        public SgmlHeader? TryGetHeader(string path)
         {
             using var stream = new StreamReader(path, Encoding.ASCII);
 
@@ -105,7 +105,13 @@ namespace OfxNet
                     break;
                 }
 
-                string line = reader.ReadLine();
+                string? line = reader.ReadLine();
+                if (line is null)
+                {
+                    // EOF
+                    break;
+                }
+
                 ++_lineNumber;
 
                 if (processLine.Invoke(line))

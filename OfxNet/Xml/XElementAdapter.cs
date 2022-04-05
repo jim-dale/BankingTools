@@ -22,14 +22,14 @@ namespace OfxNet
 
         public string Value => _element.Value;
 
-        IOfxElement IOfxElement.Element(string name, StringComparer comparer)
+        IOfxElement? IOfxElement.Element(string name, StringComparer comparer)
         {
             var element = (from e in _element.Elements()
                            where comparer.Equals(name, e.Name.LocalName)
                            select e)
                          .FirstOrDefault();
 
-            return (element is null) ? (IOfxElement)null : new XElementAdapter(element);
+            return (element is null) ? null : new XElementAdapter(element);
         }
 
         public IEnumerable<IOfxElement> Elements(string name, StringComparer comparer)
