@@ -6,6 +6,8 @@ namespace OfxNet
 {
     public class SgmlElement : IOfxElement
     {
+        public static readonly SgmlElement Empty = new SgmlElement(string.Empty, string.Empty);
+
         public string Name { get; }
         public string? Value { get; }
         public string Text { get; }

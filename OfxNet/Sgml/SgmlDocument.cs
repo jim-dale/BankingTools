@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace OfxNet
 {
@@ -16,8 +15,7 @@ namespace OfxNet
 
         public static bool TryLoad(string path, [NotNullWhen(true)] out SgmlDocument? result)
         {
-            result = default;
-            bool success = false;
+            result = null;
 
             var header = new SgmlHeaderParser().TryGetHeader(path);
             if (header != default)
@@ -25,12 +23,13 @@ namespace OfxNet
                 var encoding = header.GetEncoding();
 
                 var root = new SgmlParser().Parse(path, encoding);
-
-                result = new SgmlDocument(header, root);
-                success = true;
+                if (root != SgmlElement.Empty)
+                {
+                    result = new SgmlDocument(header, root);
+                }
             }
 
-            return success;
+            return (result != null);
         }
     }
 }

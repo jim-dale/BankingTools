@@ -66,9 +66,13 @@ namespace OfxNet
             return GetStatements(element);
         }
 
-        public IEnumerable<OfxStatement> GetStatements(IOfxElement element)
+        public IEnumerable<OfxStatement> GetStatements(IOfxElement? element)
         {
-            return GetBankStatements(element).Concat(GetCreditCardStatements(element));
+            IEnumerable<OfxStatement> result = (element is null)
+                ? Enumerable.Empty<OfxStatement>()
+                : GetBankStatements(element).Concat(GetCreditCardStatements(element));
+
+            return result;
         }
 
         public IEnumerable<OfxStatement> GetBankStatements(IOfxElement element)
@@ -105,7 +109,11 @@ namespace OfxNet
         {
             foreach (var element in elements)
             {
-                yield return GetBankStatement(GetElement(element, OfxConstants.StatementResponse));
+                var response = GetElement(element, OfxConstants.StatementResponse);
+                if (response != null)
+                {
+                    yield return GetBankStatement(response);
+                }
             }
         }
 
@@ -113,7 +121,11 @@ namespace OfxNet
         {
             foreach (var element in elements)
             {
-                yield return GetCreditCardStatement(GetElement(element, OfxConstants.CreditCardStatementResponse));
+                var response = GetElement(element, OfxConstants.CreditCardStatementResponse);
+                if (response != null)
+                {
+                    yield return GetCreditCardStatement(response);
+                }
             }
         }
 
@@ -158,17 +170,24 @@ namespace OfxNet
             };
         }
 
-        public OfxTransactionList GetStatementTransactionList(IOfxElement element)
+        public OfxTransactionList? GetStatementTransactionList(IOfxElement? element)
         {
-            var query = from t in GetElements(element, OfxConstants.StatementTransaction)
-                        select GetStatementTransaction(t);
+            OfxTransactionList? result = null;
 
-            return new OfxTransactionList
+            if (element != null)
             {
-                StartDate = GetAsDateTimeOffset(element, OfxConstants.StartDate),
-                EndDate = GetAsDateTimeOffset(element, OfxConstants.EndDate),
-                Transactions = query.ToList()
-            };
+                var query = from t in GetElements(element, OfxConstants.StatementTransaction)
+                            select GetStatementTransaction(t);
+
+                result = new OfxTransactionList
+                {
+                    StartDate = GetAsDateTimeOffset(element, OfxConstants.StartDate),
+                    EndDate = GetAsDateTimeOffset(element, OfxConstants.EndDate),
+                    Transactions = query.ToList()
+                };
+            }
+
+            return result;
         }
 
         [return: NotNullIfNotNull("element")]
@@ -246,13 +265,15 @@ namespace OfxNet
                 };
         }
 
-        public OfxStatus GetStatus(IOfxElement element)
+        public OfxStatus? GetStatus(IOfxElement? element)
         {
-            return new OfxStatus
-            {
-                Code = GetAsInt(element, OfxConstants.Code),
-                Severity = GetSeverity(element)
-            };
+            return (element is null)
+                ? null
+                : new OfxStatus
+                {
+                    Code = GetAsInt(element, OfxConstants.Code),
+                    Severity = GetSeverity(element)
+                };
         }
 
         [return: NotNullIfNotNull("element")]

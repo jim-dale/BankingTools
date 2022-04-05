@@ -8,8 +8,8 @@ namespace OfxNet
     public class SgmlParser
     {
         private int _lineNumber;
-        private SgmlElement? _root;
-        private SgmlElement? _currentNode;
+        private SgmlElement _root = SgmlElement.Empty;
+        private SgmlElement _currentNode = SgmlElement.Empty;
 
         public SgmlElement Parse(string path, Encoding encoding)
         {
@@ -60,7 +60,7 @@ namespace OfxNet
 
         private void ProcessOpeningTag(string tag, string text)
         {
-            if (_root == null)
+            if (_root == SgmlElement.Empty)
             {
                 _root = new SgmlElement(tag, text);
                 _currentNode = _root;
@@ -86,7 +86,7 @@ namespace OfxNet
                 throw new SgmlParseException($"Closing tag '{tag}' does not match opening tag '{expectedTag}', line {_lineNumber}.");
             }
 
-            _currentNode = _currentNode.Parent;
+            _currentNode = _currentNode.Parent ?? _root;
         }
 
         private SgmlParseResult? TryParseLine(string line)
