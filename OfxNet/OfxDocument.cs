@@ -201,7 +201,7 @@ namespace OfxNet
                     DatePosted = GetAsDateTimeOffset(element, OfxConstants.DatePosted),
                     DateUser = GetAsNullableDateTimeOffset(element, OfxConstants.UserDate),
                     DateAvailable = GetAsNullableDateTimeOffset(element, OfxConstants.DateAvailable),
-                    Amount = GetAsDecimal(element, OfxConstants.TransactionAmount),
+                    Amount = GetAsRequiredDecimal(element, OfxConstants.TransactionAmount, "Missing or invalid transaction amount from transaction element"),
                     FitId = GetAsString(element, OfxConstants.FitId),
                     Name = GetAsString(element, OfxConstants.Name),
                     Memo = GetAsString(element, OfxConstants.Memo),
@@ -227,11 +227,10 @@ namespace OfxNet
         {
             return (element is null)
                 ? null
-                : new OfxCurrency
-                {
-                    Rate = GetAsDecimal(element, OfxConstants.CurrencyRate),
-                    Symbol = GetAsString(element, OfxConstants.CurrencySymbol)
-                };
+                : new OfxCurrency(
+                    GetAsRequiredDecimal(element, OfxConstants.CurrencyRate, "Missing required currency rate in currency element."),
+                    GetAsRequiredString(element, OfxConstants.CurrencySymbol, "Missing required currency symbol in currency element.")
+                );
         }
 
         [return: NotNullIfNotNull("element")]
@@ -260,7 +259,7 @@ namespace OfxNet
                 ? null
                 : new OfxAccountBalance
                 {
-                    Balance = GetAsDecimal(element, OfxConstants.BalanceAmount),
+                    Balance = GetAsRequiredDecimal(element, OfxConstants.BalanceAmount, "Missing or invalid balance from balance element."),
                     DateAsOf = GetAsDateTimeOffset(element, OfxConstants.DateAsOf)
                 };
         }
@@ -271,7 +270,7 @@ namespace OfxNet
                 ? null
                 : new OfxStatus
                 {
-                    Code = GetAsInt(element, OfxConstants.Code),
+                    Code = GetAsRequiredInteger(element, OfxConstants.Code, "Missing required Code from status element."),
                     Severity = GetSeverity(element)
                 };
         }
@@ -303,10 +302,17 @@ namespace OfxNet
                 };
         }
 
-        private int GetAsInt(IOfxElement parent, string name)
+        private int GetAsRequiredInteger(IOfxElement parent, string name, string errorString)
         {
             string? value = GetAsString(parent, name);
-            return int.Parse(value);
+
+            (bool NullOrWhiteSpace, bool NotInteger, int Value) = OfxParser.ParseInteger(value);
+            if (NullOrWhiteSpace || NotInteger)
+            {
+                throw new OfxException(errorString);
+            }
+
+            return Value;
         }
 
         private int? GetAsNullableInt(IOfxElement parent, string name)
@@ -315,10 +321,25 @@ namespace OfxNet
             return int.TryParse(value, out var result) ? result : default(int?);
         }
 
-        private decimal GetAsDecimal(IOfxElement parent, string name)
+        private decimal GetAsRequiredDecimal(IOfxElement parent, string name, string errorString)
         {
             string? value = GetAsString(parent, name);
-            return decimal.Parse(value);
+
+            (bool NullOrWhiteSpace, bool NotDecimal, decimal Value) = OfxParser.ParseDecimal(value);
+            if (NullOrWhiteSpace || NotDecimal)
+            {
+                throw new OfxException(errorString);
+            }
+
+            return Value;
+        }
+
+        private decimal? GetAsNullableDecimal(IOfxElement parent, string name)
+        {
+            string? value = GetAsString(parent, name);
+            (bool NullOrWhiteSpace, bool NotDecimal, decimal Value) = OfxParser.ParseDecimal(value);
+
+            return (NullOrWhiteSpace || NotDecimal) ? default(decimal?) : Value;
         }
 
         private DateTimeOffset GetAsDateTimeOffset(IOfxElement parent, string name)
@@ -371,6 +392,20 @@ namespace OfxNet
         private string? GetAsString(IOfxElement parent, string name)
         {
             var result = GetElement(parent, name)?.Value;
+            if (Settings.TrimValues && string.IsNullOrEmpty(result) == false)
+            {
+                result = result.Trim();
+            }
+            return result;
+        }
+
+        private string GetAsRequiredString(IOfxElement parent, string name, string errorString)
+        {
+            var result = GetElement(parent, name)?.Value;
+            if (string.IsNullOrWhiteSpace(result))
+            {
+                throw new OfxException(errorString);
+            }
             if (Settings.TrimValues && string.IsNullOrEmpty(result) == false)
             {
                 result = result.Trim();

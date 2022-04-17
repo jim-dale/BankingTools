@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-//public string? Value { get; }
-//public IOfxElement? Element(string name, StringComparer comparer);
-//public IEnumerable<IOfxElement> Elements(string name, StringComparer comparer);
 namespace OfxNet.UnitTests
 {
     [TestClass]

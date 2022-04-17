@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -44,9 +45,41 @@ namespace OfxNet
             return result;
         }
 
-        public static DateTimeOffset? ParseNullableDateTime(string value)
+        public static (bool NullOrWhiteSpace, bool NotInteger, int Value) ParseInteger(string? value)
         {
-            DateTimeOffset? result = null;
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return (true, false, default);
+            }
+            if (int.TryParse(value, out int temp))
+            {
+                return (false, false, temp);
+            }
+            else
+            {
+                return (false, true, default);
+            }
+        }
+
+        public static (bool NullOrWhiteSpace, bool NotDecimal, decimal Value) ParseDecimal(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return (true, false, default);
+            }
+            if (decimal.TryParse(value, out decimal temp))
+            {
+                return (false, false, temp);
+            }
+            else
+            {
+                return (false, true, default);
+            }
+        }
+
+        public static DateTimeOffset? ParseNullableDateTime(string? value)
+        {
+            DateTimeOffset? result = default;
 
             if (string.IsNullOrWhiteSpace(value) == false)
             {
@@ -56,36 +89,39 @@ namespace OfxNet
             return result;
         }
 
-        public static DateTimeOffset ParseDateTime(string value)
+        public static DateTimeOffset ParseDateTime(string? value)
         {
-            if (TryParseDateTimeOffset(value, OfxConstants.DefaultDateTimeStyles, out DateTimeOffset result) == false)
+            DateTimeOffset result = default;
+
+            if (string.IsNullOrWhiteSpace(value) == false)
             {
-                throw new FormatException("String was not recognized as a valid DateTimeOffset.");
+                if (TryParseDateTimeOffset(value, OfxConstants.DefaultDateTimeStyles, out result) == false)
+                {
+                    throw new FormatException("String was not recognized as a valid DateTimeOffset.");
+                }
             }
 
             return result;
         }
 
-        public static OfxAccountType ParseAccountType(string value)
+        public static OfxAccountType ParseAccountType(string? value)
         {
-            return (OfxAccountType)Enum.Parse(typeof(OfxAccountType), value, true);
+            return ParseEnumString<OfxAccountType>(value);
         }
 
-        public static OfxSeverity ParseSeverity(string value)
+        public static OfxSeverity ParseSeverity(string? value)
         {
-            return (OfxSeverity)Enum.Parse(typeof(OfxSeverity), value, true);
+            return ParseEnumString<OfxSeverity>(value);
         }
 
-        public static OfxTransactionType ParseTransactionType(string value)
+        public static OfxTransactionType ParseTransactionType(string? value)
         {
-            return (OfxTransactionType)Enum.Parse(typeof(OfxTransactionType), value, true);
+            return ParseEnumString<OfxTransactionType>(value);
         }
 
         public static OfxCorrectiveAction ParseCorrectiveAction(string? value)
         {
-            return string.IsNullOrEmpty(value)
-                ? OfxCorrectiveAction.NotSet
-                : (OfxCorrectiveAction)Enum.Parse(typeof(OfxCorrectiveAction), value, true);
+            return ParseEnumString<OfxCorrectiveAction>(value);
         }
 
         #region Private methods
@@ -107,6 +143,19 @@ namespace OfxNet
                 CultureInfo.InvariantCulture,
                 style,
                 out result);
+        }
+
+        private static EnumType ParseEnumString<EnumType>(string? value) where EnumType : Enum
+        {
+            EnumType result = default!;
+
+            if (string.IsNullOrWhiteSpace(value) == false
+                && Enum.IsDefined(typeof(EnumType), value))
+            {
+                result = (EnumType)Enum.Parse(typeof(EnumType), value, true);
+            }
+
+            return result;
         }
         #endregion
     }
