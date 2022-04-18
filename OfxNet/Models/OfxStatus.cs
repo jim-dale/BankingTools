@@ -5,6 +5,6 @@ namespace OfxNet
     {
         public int Code { get; set; }
         public OfxSeverity Severity { get; set; }
-        public string Message { get; set; }
+        public string? Message { get; set; }
     }
 }

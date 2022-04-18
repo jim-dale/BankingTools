@@ -7,8 +7,42 @@ namespace OfxNet.UnitTests
     [TestClass]
     public class OfxParserTests
     {
+        [TestMethod]
+        public void ParseInteger_WithNull_ReturnsExpectedValue()
+        {
+            var actual = OfxParser.ParseInteger(null);
+
+            Assert.AreEqual((true, false, default(int)), actual);
+        }
+
         [DataTestMethod]
-        [DynamicData(nameof(Data), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(IntegerParserTestData), DynamicDataSourceType.Property)]
+        public void ParseInteger_WithString_ReturnsExpectedValue(string str, (bool NullOrEmpty, bool NotInteger, int Value) expected)
+        {
+            var actual = OfxParser.ParseInteger(str);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ParseDecimal_WithNull_ReturnsExpectedValue()
+        {
+            var actual = OfxParser.ParseDecimal(null);
+
+            Assert.AreEqual((true, false, default(decimal)), actual);
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(DecimalParserTestData), DynamicDataSourceType.Property)]
+        public void ParseDecimal_WithString_ReturnsExpectedValue(string str, (bool NullOrEmpty, bool NotDecimal, decimal Value) expected)
+        {
+            var actual = OfxParser.ParseDecimal(str);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(OfxDateTimeTestData), DynamicDataSourceType.Property)]
         public void ParseDateTime_WithValidString_ReturnsCorrectDateTime(string str, DateTimeOffset expected)
         {
             var actual = OfxParser.ParseDateTime(str);
@@ -16,7 +50,49 @@ namespace OfxNet.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-        public static IEnumerable<object[]> Data
+        [DataTestMethod]
+        [DynamicData(nameof(OfxAccountTypeTestData), DynamicDataSourceType.Property)]
+        public void ParseOfxAccountType_WithValidString_ReturnsExpectedValue(string str, OfxAccountType expected)
+        {
+            var actual = OfxParser.ParseAccountType(str);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        private static IEnumerable<object[]> IntegerParserTestData
+        {
+            get
+            {
+                yield return new object[] { string.Empty, (true, false, default(int)) };
+                yield return new object[] { "   ", (true, false, default(int)) };
+                yield return new object[] { "Forty One", (false, true, default(int)) };
+                yield return new object[] { "41.98", (false, true, default(int)) };
+                yield return new object[] { "48", (false, false, 48) };
+            }
+        }
+
+        private static IEnumerable<object[]> DecimalParserTestData
+        {
+            get
+            {
+                yield return new object[] { string.Empty, (true, false, default(decimal)) };
+                yield return new object[] { "   ", (true, false, default(decimal)) };
+                yield return new object[] { "Forty One", (false, true, default(decimal)) };
+                yield return new object[] { "41.98", (false, false, 41.98M) };
+            }
+        }
+
+        private static IEnumerable<object[]> OfxAccountTypeTestData
+        {
+            get
+            {
+                yield return new object[] { "MONEYMRKT", OfxAccountType.MONEYMRKT };
+                yield return new object[] { null, OfxAccountType.NotSet };
+                yield return new object[] { "NotValid", OfxAccountType.NotSet };
+            }
+        }
+
+        private static IEnumerable<object[]> OfxDateTimeTestData
         {
             get
             {

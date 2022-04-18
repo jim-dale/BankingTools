@@ -17,7 +17,7 @@ namespace OfxNet
             Minor = minor;
             Revision = revision;
         }
-        public override bool Equals(object obj) => (obj is OfxVersion other) && Equals(other);
+        public override bool Equals(object? obj) => (obj is OfxVersion other) && Equals(other);
 
         public bool Equals(OfxVersion other)
         {
