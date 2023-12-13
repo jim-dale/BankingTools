@@ -17,9 +17,4 @@ public class SgmlParseException : Exception
     public SgmlParseException(string message, Exception inner) : base(message, inner)
     {
     }
-
-    protected SgmlParseException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }
