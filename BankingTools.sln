@@ -3,18 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfxNet", "OfxNet\OfxNet.csproj", "{FB4B0B05-D087-464A-B03C-7B512AE0735D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfxNet", "src\OfxNet\OfxNet.csproj", "{FB4B0B05-D087-464A-B03C-7B512AE0735D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfxNet.UnitTests", "OfxNet.UnitTests\OfxNet.UnitTests.csproj", "{4DBA4695-02D6-49C2-810A-DE8DFE7B70EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfxNet.UnitTests", "test\OfxNet.UnitTests\OfxNet.UnitTests.csproj", "{4DBA4695-02D6-49C2-810A-DE8DFE7B70EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfxNet.IntegrationTests", "OfxNet.IntegrationTests\OfxNet.IntegrationTests.csproj", "{1A1F0950-9156-44A0-BFE8-4E5B001F9A84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfxNet.IntegrationTests", "test\OfxNet.IntegrationTests\OfxNet.IntegrationTests.csproj", "{1A1F0950-9156-44A0-BFE8-4E5B001F9A84}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9820D1F4-882C-4CF1-8E02-71939CE4B3A7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		.github\workflows\dotnet-core.yml = .github\workflows\dotnet-core.yml
+		Directory.Build.props = Directory.Build.props
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		LICENSE = LICENSE
+		.github\workflows\ofxnet-pr.yml = .github\workflows\ofxnet-pr.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
