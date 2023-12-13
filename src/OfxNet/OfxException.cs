@@ -17,8 +17,4 @@ internal class OfxException : Exception
     public OfxException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
-
-    protected OfxException(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-    }
 }

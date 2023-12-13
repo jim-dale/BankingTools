@@ -3,7 +3,6 @@
     <PackageProjectUrl>https://github.com/jim-dale/BankingTools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jim-dale/BankingTools.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <NeutralLanguage>en</NeutralLanguage>
     <Description>Parse Open Financial Exchange (OFX) files. Supports SGML and XML formatted OFX files.</Description>
     <PackageTags>OFX</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
