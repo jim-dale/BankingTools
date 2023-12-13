@@ -1,7 +1,8 @@
 # BankingTools
-Banking tools v1.2.0
+Banking tools v1.4.0
 
-[![.NET](https://github.com/jim-dale/BankingTools/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jim-dale/BankingTools/actions/workflows/dotnet.yml)
+[![PR build](https://github.com/jim-dale/BankingTools/actions/workflows/ofxnet-publish.yml/badge.svg)](https://github.com/jim-dale/BankingTools/actions/workflows/ofxnet-publish.yml)
+[![Published build](https://github.com/jim-dale/BankingTools/actions/workflows/ofxnet-publish.yml/badge.svg)](https://github.com/jim-dale/BankingTools/actions/workflows/ofxnet-publish.yml)
 [![Nuget](https://img.shields.io/nuget/v/OfxNet)](https://www.nuget.org/packages/OfxNet/)
 
 This .NET 8 Library supports reading Open Financial Exchange (OFX) files that contain bank and credit card statements.
