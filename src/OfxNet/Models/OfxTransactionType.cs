@@ -10,7 +10,9 @@ public enum OfxTransactionType
     [Description("Generic debit")]
     DEBIT,
     [Description("Interest earned or paid. Note: Depends on signage of amount")]
+#pragma warning disable CA1720 // Identifier contains type name
     INT,
+#pragma warning restore CA1720 // Identifier contains type name
     [Description("Dividend")]
     DIV,
     [Description("FI fee")]

@@ -4,5 +4,5 @@ internal enum SgmlTagType
 {
     OpeningTag,
     ValueTag,
-    ClosingTag
+    ClosingTag,
 }

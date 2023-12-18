@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 public class SgmlOfxElementTests
 {
     [TestMethod]
-    public void GetRequiredChildElement_AndChildExists_Succeeds()
+    public void GetRequiredChildElementAndChildExistsSucceeds()
     {
         SgmlElement sut = new("OFX", "<OFX>");
         SgmlElement expected = sut.AddChild(new SgmlElement("Exists", string.Empty, sut));
@@ -18,7 +18,7 @@ public class SgmlOfxElementTests
     }
 
     [TestMethod]
-    public void GetRequiredChildElement_AndChildDoesNotExist_ReturnsNull()
+    public void GetRequiredChildElementAndChildDoesNotExistReturnsNull()
     {
         SgmlElement sut = new("OFX", "<OFX>");
         _ = sut.AddChild(new SgmlElement("Exists", string.Empty, sut));

@@ -5,123 +5,34 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
+/// <summary>
+/// Implements methods to parse an OFX SGML header.
+/// </summary>
 public class SgmlHeaderParser
 {
-    private int _lineNumber;
+    private int lineNumber;
 
     public SgmlHeader? TryGetHeader(string path)
     {
         using StreamReader stream = new (path, Encoding.ASCII);
 
-        OfxVersion headerVersion = TryGetOfxHeaderVersion(stream);
+        OfxVersion headerVersion = this.TryGetOfxHeaderVersion(stream);
 
-        return (headerVersion == OfxVersion.HeaderV1) ? GetHeader(stream, headerVersion) : default;
+        return (headerVersion == OfxVersion.HeaderV1) ? this.GetHeader(stream, headerVersion) : default;
     }
 
     public int SkipToContent(TextReader reader)
     {
-        SkipNoneContentLines(reader);
+        ArgumentNullException.ThrowIfNull(reader);
 
-        ReadHeaders(reader, (line) => false);
+        this.SkipNoneContentLines(reader);
 
-        return _lineNumber;
+        this.ReadHeaders(reader, (line) => false);
+
+        return this.lineNumber;
     }
 
-    private OfxVersion TryGetOfxHeaderVersion(TextReader reader)
-    {
-        OfxVersion result = OfxVersion.InvalidHeader;
-
-        SkipNoneContentLines(reader);
-
-        ReadHeaders(reader, (line) =>
-        {
-            // First header must be the OFX version header e.g. 'OFXHEADER:100'
-            Match match = SgmlConstants.HeaderVersionRegex.Match(line);
-            if (match.Success)
-            {
-                result = OfxParser.TryParseVersion(match.Groups[1].Value);
-            }
-
-            return true;
-        });
-
-        return result;
-    }
-
-    private SgmlHeader GetHeader(TextReader reader, OfxVersion headerVersion)
-    {
-        var result = new SgmlHeader
-        {
-            HeaderVersion = headerVersion
-        };
-
-        ReadHeaders(reader, (line) =>
-        {
-            Match match = SgmlConstants.HeaderRegex.Match(line);
-            if (match.Success)
-            {
-                string name = match.Groups[1].Value.ToUpperInvariant();
-                string value = match.Groups[2].Value.Trim();
-
-                _ = TrySetHeaderValue(result, name, value);
-            }
-            else
-            {
-                throw new SgmlParseException("Invalid format while parsing OFX headers, line number " + _lineNumber + ".");
-            }
-
-            return false;
-        });
-
-        return result;
-    }
-
-    private void SkipNoneContentLines(TextReader reader)
-    {
-        int nextChar;   // When Peek returns -1 it is the end of the stream
-        while ((nextChar = reader.Peek()) != -1)
-        {
-            // OFX headers all start with a normal ASCII letter. Anything else
-            // stop processing.
-            if (char.IsWhiteSpace((char)nextChar) == false)
-            {
-                break;
-            }
-
-            _ = reader.ReadLine();
-            ++_lineNumber;
-        }
-    }
-
-    private void ReadHeaders(TextReader reader, Func<string, bool> processLine)
-    {
-        int nextChar;   // When Peek returns -1 it is the end of the stream
-        while ((nextChar = reader.Peek()) != -1)
-        {
-            // OFX headers all start with a normal ASCII letter.
-            // Anything else - stop processing.
-            if (char.IsLetter((char)nextChar) == false)
-            {
-                break;
-            }
-
-            string? line = reader.ReadLine();
-            if (line is null)
-            {
-                // EOF
-                break;
-            }
-
-            ++_lineNumber;
-
-            if (processLine.Invoke(line))
-            {
-                break;
-            }
-        }
-    }
-
-    private bool TrySetHeaderValue(SgmlHeader item, string name, string value)
+    private static bool TrySetHeaderValue(SgmlHeader item, string name, string value)
     {
         bool result = true;
 
@@ -157,5 +68,99 @@ public class SgmlHeaderParser
         }
 
         return result;
+    }
+
+    private OfxVersion TryGetOfxHeaderVersion(TextReader reader)
+    {
+        OfxVersion result = OfxVersion.InvalidHeader;
+
+        this.SkipNoneContentLines(reader);
+
+        this.ReadHeaders(reader, (line) =>
+        {
+            // First header must be the OFX version header e.g. 'OFXHEADER:100'
+            Match match = SgmlConstants.HeaderVersionRegex.Match(line);
+            if (match.Success)
+            {
+                result = OfxParser.TryParseVersion(match.Groups[1].Value);
+            }
+
+            return true;
+        });
+
+        return result;
+    }
+
+    private SgmlHeader GetHeader(TextReader reader, OfxVersion headerVersion)
+    {
+        var result = new SgmlHeader()
+        {
+            HeaderVersion = headerVersion,
+        };
+
+        this.ReadHeaders(reader, (line) =>
+        {
+            Match match = SgmlConstants.HeaderRegex.Match(line);
+            if (match.Success)
+            {
+                string name = match.Groups[1].Value.ToUpperInvariant();
+                string value = match.Groups[2].Value.Trim();
+
+                _ = TrySetHeaderValue(result, name, value);
+            }
+            else
+            {
+                throw new SgmlParseException("Invalid format while parsing OFX headers, line number " + this.lineNumber + ".");
+            }
+
+            return false;
+        });
+
+        return result;
+    }
+
+    private void SkipNoneContentLines(TextReader reader)
+    {
+        int nextChar;   // When Peek returns -1 it is the end of the stream
+        while ((nextChar = reader.Peek()) != -1)
+        {
+            // OFX headers all start with a normal ASCII letter. Anything else
+            // stop processing.
+            if (char.IsWhiteSpace((char)nextChar) == false)
+            {
+                break;
+            }
+
+            _ = reader.ReadLine();
+            ++this.lineNumber;
+        }
+    }
+
+    private void ReadHeaders(TextReader reader, Func<string, bool> processLine)
+    {
+        int nextChar;   // When Peek returns -1 it is the end of the stream
+        while ((nextChar = reader.Peek()) != -1)
+        {
+            // OFX headers all start with a normal ASCII letter.
+            // Anything else - stop processing.
+            if (char.IsLetter((char)nextChar) == false)
+            {
+                break;
+            }
+
+            string? line = reader.ReadLine();
+            if (line is null)
+            {
+                // EOF
+                break;
+            }
+
+            ++this.lineNumber;
+
+            if (processLine.Invoke(line))
+            {
+                break;
+            }
+        }
     }
 }

@@ -3,11 +3,21 @@
 using System;
 using System.Text;
 
+/// <summary>
+/// <see cref="SgmlHeader"/> extension methods.
+/// </summary>
 public static partial class SgmlHeaderExtensions
 {
+    /// <summary>
+    /// Gets the character encoding for the remaining data in the document from the SGML header.
+    /// </summary>
+    /// <param name="item">The SGML header object.</param>
+    /// <returns>The character enconding.</returns>
     public static Encoding GetEncoding(this SgmlHeader item)
     {
-        var result = Encoding.Default;
+        ArgumentNullException.ThrowIfNull(item);
+
+        Encoding result = Encoding.Default;
 
         if (string.Equals("USASCII", item.Encoding, StringComparison.OrdinalIgnoreCase))
         {
@@ -29,11 +39,9 @@ public static partial class SgmlHeaderExtensions
                 {
                     result = Encoding.GetEncoding(item.Charset);
                 }
-#pragma warning disable CA1031 // Justification - this is the exact exception thrown
                 catch (ArgumentException)
                 {
                 }
-#pragma warning restore CA1031
             }
         }
         else if (string.Equals("UTF-8", item.Encoding, StringComparison.OrdinalIgnoreCase))
