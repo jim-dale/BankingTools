@@ -7,11 +7,12 @@ public class SgmlDocument
 {
     private SgmlDocument(SgmlHeader header, SgmlElement root)
     {
-        Header = header;
-        Root = root;
+        this.Header = header;
+        this.Root = root;
     }
 
     public SgmlHeader Header { get; set; }
+
     public SgmlElement Root { get; set; }
 
     public static bool TryLoad(string path, [NotNullWhen(true)] out SgmlDocument? result)
@@ -30,6 +31,6 @@ public class SgmlDocument
             }
         }
 
-        return (result != null);
+        return result != null;
     }
 }

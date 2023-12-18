@@ -10,8 +10,6 @@ public class OfxDocument
 {
     private readonly object document;
 
-    public OfxDocumentSettings Settings { get; }
-
     public OfxDocument(object document)
         : this(document, OfxDocumentSettings.Default)
     {
@@ -20,8 +18,10 @@ public class OfxDocument
     public OfxDocument(object document, OfxDocumentSettings settings)
     {
         this.document = document;
-        Settings = settings;
+        this.Settings = settings;
     }
+
+    public OfxDocumentSettings Settings { get; }
 
     public static OfxDocument Load(string path)
     {
@@ -44,14 +44,15 @@ public class OfxDocument
         return result;
     }
 
+    [SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "Breaking change.")]
     public IOfxElement? GetRoot()
     {
         IOfxElement? result = default;
-        if (document is SgmlDocument sgmlDocument)
+        if (this.document is SgmlDocument sgmlDocument)
         {
             result = sgmlDocument.Root;
         }
-        else if (document is XDocument { Root: not null } xmlDocument)
+        else if (this.document is XDocument { Root: not null } xmlDocument)
         {
             result = new XElementAdapter(xmlDocument.Root);
         }
@@ -61,29 +62,31 @@ public class OfxDocument
 
     public IEnumerable<OfxStatement> GetStatements()
     {
-        IOfxElement? element = GetRoot();
+        IOfxElement? element = this.GetRoot();
 
-        return GetStatements(element);
+        return this.GetStatements(element);
     }
 
     public IEnumerable<OfxStatement> GetStatements(IOfxElement? element)
     {
         IEnumerable<OfxStatement> result = (element is null)
             ? Enumerable.Empty<OfxStatement>()
-            : GetBankStatements(element).Concat(GetCreditCardStatements(element));
+            : this.GetBankStatements(element).Concat(this.GetCreditCardStatements(element));
 
         return result;
     }
 
     public IEnumerable<OfxStatement> GetBankStatements(IOfxElement element)
     {
-        IOfxElement? set = GetElement(element, OfxConstants.BankMessageSetResponseV1);
-        IEnumerable<IOfxElement> elements = GetElements(set, OfxConstants.StatementTxResponse);
-        IEnumerable<OfxBankStatement> statements = GetBankStatements(elements);
+        ArgumentNullException.ThrowIfNull(element);
+
+        IOfxElement? set = this.GetElement(element, OfxConstants.BankMessageSetResponseV1);
+        IEnumerable<IOfxElement> elements = this.GetElements(set, OfxConstants.StatementTxResponse);
+        IEnumerable<OfxBankStatement> statements = this.GetBankStatements(elements);
 
         if (statements != null)
         {
-            foreach (var statement in statements)
+            foreach (OfxBankStatement statement in statements)
             {
                 yield return statement;
             }
@@ -92,13 +95,13 @@ public class OfxDocument
 
     public IEnumerable<OfxStatement> GetCreditCardStatements(IOfxElement element)
     {
-        IOfxElement? set = GetElement(element, OfxConstants.CreditCardMessageSetResponseV1, OfxConstants.CreditCardMessageSetResponseV2);
-        IEnumerable<IOfxElement> elements = GetElements(set, OfxConstants.CreditCardStatementTxResponse);
-        IEnumerable<OfxCreditCardStatement> creditCardStatements = GetCreditCardStatements(elements);
+        IOfxElement? set = this.GetElement(element, OfxConstants.CreditCardMessageSetResponseV1, OfxConstants.CreditCardMessageSetResponseV2);
+        IEnumerable<IOfxElement> elements = this.GetElements(set, OfxConstants.CreditCardStatementTxResponse);
+        IEnumerable<OfxCreditCardStatement> creditCardStatements = this.GetCreditCardStatements(elements);
 
         if (creditCardStatements != null)
         {
-            foreach (var statement in creditCardStatements)
+            foreach (OfxCreditCardStatement statement in creditCardStatements)
             {
                 yield return statement;
             }
@@ -107,24 +110,28 @@ public class OfxDocument
 
     public IEnumerable<OfxBankStatement> GetBankStatements(IEnumerable<IOfxElement> elements)
     {
+        ArgumentNullException.ThrowIfNull(elements);
+
         foreach (IOfxElement element in elements)
         {
-            IOfxElement? response = GetElement(element, OfxConstants.StatementResponse);
+            IOfxElement? response = this.GetElement(element, OfxConstants.StatementResponse);
             if (response != null)
             {
-                yield return GetBankStatement(response);
+                yield return this.GetBankStatement(response);
             }
         }
     }
 
     public IEnumerable<OfxCreditCardStatement> GetCreditCardStatements(IEnumerable<IOfxElement> elements)
     {
+        ArgumentNullException.ThrowIfNull(elements);
+
         foreach (IOfxElement element in elements)
         {
-            IOfxElement? response = GetElement(element, OfxConstants.CreditCardStatementResponse);
+            IOfxElement? response = this.GetElement(element, OfxConstants.CreditCardStatementResponse);
             if (response != null)
             {
-                yield return GetCreditCardStatement(response);
+                yield return this.GetCreditCardStatement(response);
             }
         }
     }
@@ -136,10 +143,10 @@ public class OfxDocument
             ? null
             : new OfxSignOn
             {
-                Status = GetStatus(GetElement(element, OfxConstants.Status)),
-                ServerDate = GetAsDateTimeOffset(element, OfxConstants.ServerDate),
-                Language = GetAsString(element, OfxConstants.Language),
-                IntuBid = GetAsString(element, OfxConstants.IntuBId)
+                Status = this.GetStatus(this.GetElement(element, OfxConstants.Status)),
+                ServerDate = this.GetAsDateTimeOffset(element, OfxConstants.ServerDate),
+                Language = this.GetAsString(element, OfxConstants.Language),
+                IntuBid = this.GetAsString(element, OfxConstants.IntuBId),
             };
     }
 
@@ -150,23 +157,25 @@ public class OfxDocument
             ? null
             : new OfxBankStatement
             {
-                DefaultCurrency = GetAsString(element, OfxConstants.DefaultCurrency),
-                Account = GetBankAccount(GetElement(element, OfxConstants.BankAccountFrom)),
-                TransactionList = GetStatementTransactionList(GetElement(element, OfxConstants.BankTransactionList)),
-                LedgerBalance = GetAccountBalance(GetElement(element, OfxConstants.LedgerBalance)),
-                AvailableBalance = GetAccountBalance(GetElement(element, OfxConstants.AvailableBalance))
+                DefaultCurrency = this.GetAsString(element, OfxConstants.DefaultCurrency),
+                Account = this.GetBankAccount(this.GetElement(element, OfxConstants.BankAccountFrom)),
+                TransactionList = this.GetStatementTransactionList(this.GetElement(element, OfxConstants.BankTransactionList)),
+                LedgerBalance = this.GetAccountBalance(this.GetElement(element, OfxConstants.LedgerBalance)),
+                AvailableBalance = this.GetAccountBalance(this.GetElement(element, OfxConstants.AvailableBalance)),
             };
     }
 
     public OfxCreditCardStatement GetCreditCardStatement(IOfxElement element)
     {
+        ArgumentNullException.ThrowIfNull(element);
+
         return new OfxCreditCardStatement
         {
-            DefaultCurrency = GetAsString(element, OfxConstants.DefaultCurrency),
-            Account = GetCreditCardAccount(GetElement(element, OfxConstants.CreditCardAccountFrom)),
-            TransactionList = GetStatementTransactionList(GetElement(element, OfxConstants.BankTransactionList)),
-            LedgerBalance = GetAccountBalance(GetElement(element, OfxConstants.LedgerBalance)),
-            AvailableBalance = GetAccountBalance(GetElement(element, OfxConstants.AvailableBalance))
+            DefaultCurrency = this.GetAsString(element, OfxConstants.DefaultCurrency),
+            Account = this.GetCreditCardAccount(this.GetElement(element, OfxConstants.CreditCardAccountFrom)),
+            TransactionList = this.GetStatementTransactionList(this.GetElement(element, OfxConstants.BankTransactionList)),
+            LedgerBalance = this.GetAccountBalance(this.GetElement(element, OfxConstants.LedgerBalance)),
+            AvailableBalance = this.GetAccountBalance(this.GetElement(element, OfxConstants.AvailableBalance)),
         };
     }
 
@@ -176,14 +185,14 @@ public class OfxDocument
 
         if (element != null)
         {
-            IEnumerable<OfxStatementTransaction> query = from t in GetElements(element, OfxConstants.StatementTransaction)
-                        select GetStatementTransaction(t);
+            IEnumerable<OfxStatementTransaction> query = from t in this.GetElements(element, OfxConstants.StatementTransaction)
+                        select this.GetStatementTransaction(t);
 
             result = new OfxTransactionList
             {
-                StartDate = GetAsDateTimeOffset(element, OfxConstants.StartDate),
-                EndDate = GetAsDateTimeOffset(element, OfxConstants.EndDate),
-                Transactions = query.ToList()
+                StartDate = this.GetAsDateTimeOffset(element, OfxConstants.StartDate),
+                EndDate = this.GetAsDateTimeOffset(element, OfxConstants.EndDate),
+                Transactions = query.ToList(),
             };
         }
 
@@ -197,28 +206,28 @@ public class OfxDocument
             ? null
             : new OfxStatementTransaction
             {
-                TxType = GetTransactionType(element),
-                DatePosted = GetAsDateTimeOffset(element, OfxConstants.DatePosted),
-                DateUser = GetAsNullableDateTimeOffset(element, OfxConstants.UserDate),
-                DateAvailable = GetAsNullableDateTimeOffset(element, OfxConstants.DateAvailable),
-                Amount = GetAsRequiredDecimal(element, OfxConstants.TransactionAmount, "Missing or invalid transaction amount from transaction element"),
-                FitId = GetAsString(element, OfxConstants.FitId),
-                Name = GetAsString(element, OfxConstants.Name),
-                Memo = GetAsString(element, OfxConstants.Memo),
-                Memo2 = GetAsString(element, OfxConstants.Memo2),
-                ChequeNumber = GetAsString(element, OfxConstants.ChequeNumber),
-                ReferenceNumber = GetAsString(element, OfxConstants.ReferenceNumber),
-                CorrectFitId = GetAsString(element, OfxConstants.CorrectFitId),
-                CorrectAction = GetCorrectiveAction(element),
-                ServiceProviderName = GetAsString(element, OfxConstants.ServiceProviderName),
-                ServerTxId = GetAsString(element, OfxConstants.ServerTxId2, OfxConstants.ServerTxId),
-                StandardIndustrialCode = GetAsNullableInt(element, OfxConstants.StandardIndustrialCode),
-                PayeeId = GetAsString(element, OfxConstants.PayeeId2, OfxConstants.PayeeId),
-                Payee = GetPayee(GetElement(element, OfxConstants.Payee2, OfxConstants.Payee)),
-                Currency = GetCurrency(GetElement(element, OfxConstants.Currency)),
-                OriginalCurrency = GetCurrency(GetElement(element, OfxConstants.OriginalCurrency)),
-                BankAccountTo = GetBankAccount(GetElement(element, OfxConstants.BankAccountTo)),
-                CreditCardAccountTo = GetCreditCardAccount(GetElement(element, OfxConstants.CreditCardAccountTo))
+                TxType = this.GetTransactionType(element),
+                DatePosted = this.GetAsDateTimeOffset(element, OfxConstants.DatePosted),
+                DateUser = this.GetAsNullableDateTimeOffset(element, OfxConstants.UserDate),
+                DateAvailable = this.GetAsNullableDateTimeOffset(element, OfxConstants.DateAvailable),
+                Amount = this.GetAsRequiredDecimal(element, OfxConstants.TransactionAmount, "Missing or invalid transaction amount from transaction element"),
+                FitId = this.GetAsString(element, OfxConstants.FitId),
+                Name = this.GetAsString(element, OfxConstants.Name),
+                Memo = this.GetAsString(element, OfxConstants.Memo),
+                Memo2 = this.GetAsString(element, OfxConstants.Memo2),
+                ChequeNumber = this.GetAsString(element, OfxConstants.ChequeNumber),
+                ReferenceNumber = this.GetAsString(element, OfxConstants.ReferenceNumber),
+                CorrectFitId = this.GetAsString(element, OfxConstants.CorrectFitId),
+                CorrectAction = this.GetCorrectiveAction(element),
+                ServiceProviderName = this.GetAsString(element, OfxConstants.ServiceProviderName),
+                ServerTxId = this.GetAsString(element, OfxConstants.ServerTxId2, OfxConstants.ServerTxId),
+                StandardIndustrialCode = this.GetAsNullableInt(element, OfxConstants.StandardIndustrialCode),
+                PayeeId = this.GetAsString(element, OfxConstants.PayeeId2, OfxConstants.PayeeId),
+                Payee = this.GetPayee(this.GetElement(element, OfxConstants.Payee2, OfxConstants.Payee)),
+                Currency = this.GetCurrency(this.GetElement(element, OfxConstants.Currency)),
+                OriginalCurrency = this.GetCurrency(this.GetElement(element, OfxConstants.OriginalCurrency)),
+                BankAccountTo = this.GetBankAccount(this.GetElement(element, OfxConstants.BankAccountTo)),
+                CreditCardAccountTo = this.GetCreditCardAccount(this.GetElement(element, OfxConstants.CreditCardAccountTo)),
             };
     }
 
@@ -228,9 +237,8 @@ public class OfxDocument
         return (element is null)
             ? null
             : new OfxCurrency(
-                GetAsRequiredDecimal(element, OfxConstants.CurrencyRate, "Missing required currency rate in currency element."),
-                GetAsRequiredString(element, OfxConstants.CurrencySymbol, "Missing required currency symbol in currency element.")
-            );
+                this.GetAsRequiredDecimal(element, OfxConstants.CurrencyRate, "Missing required currency rate in currency element."),
+                this.GetAsRequiredString(element, OfxConstants.CurrencySymbol, "Missing required currency symbol in currency element."));
     }
 
     [return: NotNullIfNotNull(nameof(element))]
@@ -240,15 +248,15 @@ public class OfxDocument
             ? null
             : new OfxPayee
             {
-                Name = GetAsString(element, OfxConstants.Name),
-                AddressLine1 = GetAsString(element, OfxConstants.Address1),
-                AddressLine2 = GetAsString(element, OfxConstants.Address2),
-                AddressLine3 = GetAsString(element, OfxConstants.Address3),
-                City = GetAsString(element, OfxConstants.City),
-                State = GetAsString(element, OfxConstants.State),
-                PostalCode = GetAsString(element, OfxConstants.PostalCode),
-                Country = GetAsString(element, OfxConstants.Country),
-                PhoneNumber = GetAsString(element, OfxConstants.Phone),
+                Name = this.GetAsString(element, OfxConstants.Name),
+                AddressLine1 = this.GetAsString(element, OfxConstants.Address1),
+                AddressLine2 = this.GetAsString(element, OfxConstants.Address2),
+                AddressLine3 = this.GetAsString(element, OfxConstants.Address3),
+                City = this.GetAsString(element, OfxConstants.City),
+                State = this.GetAsString(element, OfxConstants.State),
+                PostalCode = this.GetAsString(element, OfxConstants.PostalCode),
+                Country = this.GetAsString(element, OfxConstants.Country),
+                PhoneNumber = this.GetAsString(element, OfxConstants.Phone),
             };
     }
 
@@ -259,8 +267,8 @@ public class OfxDocument
             ? null
             : new OfxAccountBalance
             {
-                Balance = GetAsRequiredDecimal(element, OfxConstants.BalanceAmount, "Missing or invalid balance from balance element."),
-                DateAsOf = GetAsDateTimeOffset(element, OfxConstants.DateAsOf)
+                Balance = this.GetAsRequiredDecimal(element, OfxConstants.BalanceAmount, "Missing or invalid balance from balance element."),
+                DateAsOf = this.GetAsDateTimeOffset(element, OfxConstants.DateAsOf),
             };
     }
 
@@ -270,8 +278,8 @@ public class OfxDocument
             ? null
             : new OfxStatus
             {
-                Code = GetAsRequiredInteger(element, OfxConstants.Code, "Missing required Code from status element."),
-                Severity = GetSeverity(element)
+                Code = this.GetAsRequiredInteger(element, OfxConstants.Code, "Missing required Code from status element."),
+                Severity = this.GetSeverity(element),
             };
     }
 
@@ -282,11 +290,11 @@ public class OfxDocument
             ? null
             : new OfxBankAccount
             {
-                BankId = GetAsString(element, OfxConstants.BankId),
-                BranchId = GetAsString(element, OfxConstants.BranchId),
-                AccountNumber = GetAsString(element, OfxConstants.AccountId),
-                AccountType = GetAccountType(element),
-                Checksum = GetAsString(element, OfxConstants.AccountKey)
+                BankId = this.GetAsString(element, OfxConstants.BankId),
+                BranchId = this.GetAsString(element, OfxConstants.BranchId),
+                AccountNumber = this.GetAsString(element, OfxConstants.AccountId),
+                AccountType = this.GetAccountType(element),
+                Checksum = this.GetAsString(element, OfxConstants.AccountKey),
             };
     }
 
@@ -297,111 +305,121 @@ public class OfxDocument
             ? null
             : new OfxCreditCardAccount
             {
-                AccountNumber = GetAsString(element, OfxConstants.AccountId),
-                Checksum = GetAsString(element, OfxConstants.AccountKey)
+                AccountNumber = this.GetAsString(element, OfxConstants.AccountId),
+                Checksum = this.GetAsString(element, OfxConstants.AccountKey),
             };
+    }
+
+    public IOfxElement? GetElement(IOfxElement parent, string first, string second)
+    {
+        ArgumentNullException.ThrowIfNull(parent);
+
+        return this.GetElement(parent, first) ?? this.GetElement(parent, second);
+    }
+
+    public string? GetAsString(IOfxElement element, string first, string second)
+    {
+        var result = this.GetAsString(element, first);
+        if (string.IsNullOrWhiteSpace(result))
+        {
+            result = this.GetAsString(element, second);
+        }
+
+        return result;
     }
 
     private int GetAsRequiredInteger(IOfxElement parent, string name, string errorString)
     {
-        string? value = GetAsString(parent, name);
+        string? s = this.GetAsString(parent, name);
 
-        (bool NullOrWhiteSpace, bool NotInteger, int Value) = OfxParser.ParseInteger(value);
-        if (NullOrWhiteSpace || NotInteger)
+        (bool nullOrWhiteSpace, bool notInteger, int value) = OfxParser.ParseInteger(s);
+        if (nullOrWhiteSpace || notInteger)
         {
             throw new OfxException(errorString);
         }
 
-        return Value;
+        return value;
     }
 
     private int? GetAsNullableInt(IOfxElement parent, string name)
     {
-        string? value = GetAsString(parent, name);
+        string? value = this.GetAsString(parent, name);
         return int.TryParse(value, out var result) ? result : default(int?);
     }
 
     private decimal GetAsRequiredDecimal(IOfxElement parent, string name, string errorString)
     {
-        string? value = GetAsString(parent, name);
+        string? s = this.GetAsString(parent, name);
 
-        (bool NullOrWhiteSpace, bool NotDecimal, decimal Value) = OfxParser.ParseDecimal(value);
-        if (NullOrWhiteSpace || NotDecimal)
+        (bool nullOrWhiteSpace, bool notDecimal, decimal value) = OfxParser.ParseDecimal(s);
+        if (nullOrWhiteSpace || notDecimal)
         {
             throw new OfxException(errorString);
         }
 
-        return Value;
+        return value;
     }
 
     private DateTimeOffset GetAsDateTimeOffset(IOfxElement parent, string name)
     {
-        string? value = GetAsString(parent, name);
+        string? value = this.GetAsString(parent, name);
         return OfxParser.ParseDateTime(value);
     }
 
     private DateTimeOffset? GetAsNullableDateTimeOffset(IOfxElement parent, string name)
     {
-        string? value = GetAsString(parent, name);
+        string? value = this.GetAsString(parent, name);
         return OfxParser.ParseNullableDateTime(value);
     }
 
     private OfxAccountType GetAccountType(IOfxElement parent)
     {
         return OfxParser.ParseAccountType(
-            GetAsString(parent, OfxConstants.AccountType2, OfxConstants.AccountType));
+            this.GetAsString(parent, OfxConstants.AccountType2, OfxConstants.AccountType));
     }
 
     private OfxSeverity GetSeverity(IOfxElement parent)
     {
         return OfxParser.ParseSeverity(
-            GetAsString(parent, OfxConstants.Severity));
+            this.GetAsString(parent, OfxConstants.Severity));
     }
 
     private OfxTransactionType GetTransactionType(IOfxElement parent)
     {
         return OfxParser.ParseTransactionType(
-            GetAsString(parent, OfxConstants.TransactionType));
+            this.GetAsString(parent, OfxConstants.TransactionType));
     }
 
     private OfxCorrectiveAction GetCorrectiveAction(IOfxElement parent)
     {
         return OfxParser.ParseCorrectiveAction(
-            GetAsString(parent, OfxConstants.CorrectAction));
-    }
-
-    public string? GetAsString(IOfxElement element, string first, string second)
-    {
-        var result = GetAsString(element, first);
-        if (string.IsNullOrWhiteSpace(result))
-        {
-            result = GetAsString(element, second);
-        }
-
-        return result;
+            this.GetAsString(parent, OfxConstants.CorrectAction));
     }
 
     private string? GetAsString(IOfxElement parent, string name)
     {
-        var result = GetElement(parent, name)?.Value;
-        if (Settings.TrimValues && string.IsNullOrEmpty(result) == false)
+        string? result = this.GetElement(parent, name)?.Value;
+        if (this.Settings.TrimValues && string.IsNullOrEmpty(result) == false)
         {
             result = result.Trim();
         }
+
         return result;
     }
 
     private string GetAsRequiredString(IOfxElement parent, string name, string errorString)
     {
-        var result = GetElement(parent, name)?.Value;
+        string? result = this.GetElement(parent, name)?.Value;
         if (string.IsNullOrWhiteSpace(result))
         {
             throw new OfxException(errorString);
         }
-        if (Settings.TrimValues && string.IsNullOrEmpty(result) == false)
+
+        if (this.Settings.TrimValues && string.IsNullOrEmpty(result) == false)
         {
             result = result.Trim();
         }
+
         return result;
     }
 
@@ -409,8 +427,8 @@ public class OfxDocument
     {
         if (parent != null)
         {
-            var items = parent.Elements(name, Settings.TagComparer);
-            foreach (var item in items)
+            IEnumerable<IOfxElement> items = parent.Elements(name, this.Settings.TagComparer);
+            foreach (IOfxElement item in items)
             {
                 yield return item;
             }
@@ -419,11 +437,6 @@ public class OfxDocument
 
     private IOfxElement? GetElement(IOfxElement parent, string name)
     {
-        return parent.Element(name, Settings.TagComparer);
-    }
-
-    public IOfxElement? GetElement(IOfxElement parent, string first, string second)
-    {
-        return GetElement(parent, first) ?? GetElement(parent, second);
+        return parent.Element(name, this.Settings.TagComparer);
     }
 }

@@ -1,0 +1,8 @@
+# EditorConfig is awesome:http://EditorConfig.org
+
+# top-most EditorConfig file
+root = false
+
+# Code files
+[*.{cs,csx,vb,vbx,h,cpp,idl}]
+dotnet_diagnostic.CS1591.severity = none

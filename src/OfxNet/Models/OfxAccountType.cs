@@ -14,5 +14,5 @@ public enum OfxAccountType
     [Description("Line of credit")]
     CREDITLINE,
     [Description("Certificate of Deposit")]
-    CD
+    CD,
 }

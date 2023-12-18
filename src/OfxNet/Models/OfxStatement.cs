@@ -3,8 +3,11 @@
 public class OfxStatement
 {
     public string? DefaultCurrency { get; set; }
+
     public OfxAccountBalance? LedgerBalance { get; set; }
+
     public OfxAccountBalance? AvailableBalance { get; set; }
+
     public OfxTransactionList? TransactionList { get; set; }
 }
 

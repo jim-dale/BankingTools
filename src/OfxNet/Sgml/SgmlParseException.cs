@@ -10,11 +10,13 @@ public class SgmlParseException : Exception
     {
     }
 
-    public SgmlParseException(string message) : base(message)
+    public SgmlParseException(string message)
+        : base(message)
     {
     }
 
-    public SgmlParseException(string message, Exception inner) : base(message, inner)
+    public SgmlParseException(string message, Exception inner)
+        : base(message, inner)
     {
     }
 }

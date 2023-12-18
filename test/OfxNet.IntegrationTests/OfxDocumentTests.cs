@@ -34,7 +34,7 @@ public class OfxDocumentTests
     [DataTestMethod]
     [DynamicData(nameof(SampleOfxFiles), DynamicDataSourceType.Property)]
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required for testing.")]
-    public void OfxDocumentLoad_Succeeds(string path, int statementCount, int txCount)
+    public void OfxDocumentLoadSucceeds(string path, int statementCount, int txCount)
     {
         var actual = OfxDocument.Load(path);
         Assert.IsNotNull(actual);
@@ -42,13 +42,13 @@ public class OfxDocumentTests
 
     [DataTestMethod]
     [DynamicData(nameof(SampleOfxFiles), DynamicDataSourceType.Property)]
-    public void OfxDocumentLoad_GetStatements_ReturnsCorrectNumberOfStatementsAndTransactions(string path, int statementCount, int txCount)
+    public void OfxDocumentLoadGetStatementsReturnsCorrectNumberOfStatementsAndTransactions(string path, int statementCount, int txCount)
     {
         var actual = OfxDocument.Load(path);
         Assert.IsNotNull(actual);
 
-        IEnumerable<OfxStatement> allStatements = actual.GetStatements();
-        Assert.AreEqual(statementCount, allStatements.Count());
+        OfxStatement[] allStatements = actual.GetStatements().ToArray();
+        Assert.AreEqual(statementCount, allStatements.Length);
 
         IEnumerable<OfxStatementTransaction> allTransactions = allStatements.SelectMany(s => s.TransactionList!.Transactions);
         Assert.AreEqual(txCount, allTransactions.Count());
@@ -57,12 +57,14 @@ public class OfxDocumentTests
     [TestMethod]
     public void CanParseItau()
     {
+        string[] expectedMemos = ["RSHOP", "REND PAGO APLIC AUT MAIS", "SISDEB"];
+
         IEnumerable<OfxStatement> actual = OfxDocument.Load(@"Sample-itau.ofx")
             .GetStatements();
 
         OfxStatement statement = actual.First();
         Assert.IsInstanceOfType(statement, typeof(OfxBankStatement));
-        OfxBankStatement? bankStatement = statement as OfxBankStatement;
+        var bankStatement = statement as OfxBankStatement;
         Assert.IsNotNull(bankStatement);
         Assert.IsNotNull(bankStatement.Account);
 
@@ -71,14 +73,16 @@ public class OfxDocumentTests
 
         Assert.IsNotNull(statement.TransactionList);
         Assert.AreEqual(3, statement.TransactionList.Transactions.Count);
-        CollectionAssert.AreEqual(
-            statement.TransactionList.Transactions.Select(x => x.Memo).ToArray(),
-            new string[] { "RSHOP", "REND PAGO APLIC AUT MAIS", "SISDEB" });
+
+        string?[] actualMemos = statement.TransactionList.Transactions.Select(x => x.Memo).ToArray();
+        CollectionAssert.AreEqual(actualMemos, expectedMemos);
     }
 
     [TestMethod]
     public void CanParseBancoDoBrasil()
     {
+        string[] expectedMemos = ["Transferência Agendada", "Compra com Cartão", "Saque"];
+
         IEnumerable<OfxStatement> actual = OfxDocument.Load("Sample-Banco do Brasil.ofx")
             .GetStatements();
 
@@ -95,8 +99,7 @@ public class OfxDocumentTests
         Assert.IsNotNull(statement.TransactionList);
         Assert.AreEqual(3, statement.TransactionList.Transactions.Count);
 
-        CollectionAssert.AreEqual(
-            statement.TransactionList.Transactions.Select(x => x.Memo).ToArray(),
-            new string[] { "Transferência Agendada", "Compra com Cartão", "Saque" });
+        string?[] actualMemos = statement.TransactionList.Transactions.Select(x => x.Memo).ToArray();
+        CollectionAssert.AreEqual(actualMemos, expectedMemos);
     }
 }
