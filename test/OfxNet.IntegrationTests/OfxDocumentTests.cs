@@ -22,6 +22,9 @@ public class OfxDocumentTests
             yield return new object[] { "Sample-itau.ofx", 1, 3 };
             yield return new object[] { "Sample-santander.ofx", 1, 3 };
             yield return new object[] { "Sample-Banco do Brasil.ofx", 1, 3 };
+            yield return new object[] { "SampleBankStatement_tangerine.ofx", 1, 3 };
+            yield return new object[] { "SampleBankStatement_cibc.ofx", 1, 1 };
+            yield return new object[] { "SampleCreditCardStatement_cibc.ofx", 1, 1 };
         }
     }
 
