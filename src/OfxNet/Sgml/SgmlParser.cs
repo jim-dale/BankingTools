@@ -33,16 +33,17 @@ public class SgmlParser
         {
             var line = reader.ReadLine();
             ++this.lineNumber;
+
             if (!string.IsNullOrEmpty(line))
             {
-                var tags = line.Split("<");
-                foreach (var tag in tags)
+                var tags = line.Split("<").ToList();
+                tags.ForEach(t =>
                 {
-                    if (!string.IsNullOrWhiteSpace(tag))
+                    if (!string.IsNullOrWhiteSpace(t))
                     {
-                        this.ProcessLine(Wellformed(tag));
+                        this.ProcessLine(Wellformed(t));
                     }
-                }
+                });
             }
         }
 
