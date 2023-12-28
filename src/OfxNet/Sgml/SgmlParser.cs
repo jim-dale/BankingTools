@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -34,16 +33,16 @@ public class SgmlParser
             var line = reader.ReadLine();
             ++this.lineNumber;
 
-            if (!string.IsNullOrEmpty(line))
+            if (string.IsNullOrEmpty(line) == false)
             {
-                var tags = line.Split("<").ToList();
-                tags.ForEach(t =>
+                var tags = line.Split("<");
+                foreach (string tag in tags)
                 {
-                    if (!string.IsNullOrWhiteSpace(t))
+                    if (string.IsNullOrWhiteSpace(tag) == false)
                     {
-                        this.ProcessLine(Wellformed(t));
+                        this.ProcessLine(Wellformed(tag));
                     }
-                });
+                }
             }
         }
 
@@ -52,12 +51,12 @@ public class SgmlParser
 
     private static string Wellformed(string tag)
     {
-        if (tag.Contains('<', StringComparison.InvariantCultureIgnoreCase) &&
-            tag.Contains('>', StringComparison.InvariantCultureIgnoreCase))
+        if (tag.Contains('<', StringComparison.Ordinal) &&
+            tag.Contains('>', StringComparison.Ordinal))
         {
             return tag;
         }
-        else if (tag.Contains('>', StringComparison.InvariantCultureIgnoreCase))
+        else if (tag.Contains('>', StringComparison.Ordinal))
         {
             return "<" + tag;
         }
