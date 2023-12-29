@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
-using Microsoft;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
@@ -22,6 +21,11 @@ public class OfxDocumentTests
             yield return new object[] { "Sample-itau.ofx", 1, 3 };
             yield return new object[] { "Sample-santander.ofx", 1, 3 };
             yield return new object[] { "Sample-Banco do Brasil.ofx", 1, 3 };
+
+            // added to test multi-tags per line
+            yield return new object[] { "SampleBankStatement_tangerine.ofx", 1, 0 };
+            yield return new object[] { "SampleBankStatement_cibc.ofx", 1, 6 };
+            yield return new object[] { "SampleCreditCardStatement_cibc.ofx", 1, 4 };
         }
     }
 

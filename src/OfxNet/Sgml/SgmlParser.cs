@@ -14,6 +14,7 @@ public class SgmlParser
     private int lineNumber;
     private SgmlElement root = SgmlElement.Empty;
     private SgmlElement currentNode = SgmlElement.Empty;
+    private SgmlElement lastValueNode = SgmlElement.Empty;
 
     /// <summary>
     /// Parse teh specified file as an SGML formatted OFX document.
@@ -32,13 +33,37 @@ public class SgmlParser
             var line = reader.ReadLine();
             ++this.lineNumber;
 
-            if (string.IsNullOrWhiteSpace(line) == false)
+            if (string.IsNullOrEmpty(line) == false)
             {
-                this.ProcessLine(line);
+                var tags = line.Split("<");
+                foreach (string tag in tags)
+                {
+                    if (string.IsNullOrWhiteSpace(tag) == false)
+                    {
+                        this.ProcessLine(Wellformed(tag));
+                    }
+                }
             }
         }
 
         return this.root;
+    }
+
+    private static string Wellformed(string tag)
+    {
+        if (tag.Contains('<', StringComparison.Ordinal) &&
+            tag.Contains('>', StringComparison.Ordinal))
+        {
+            return tag;
+        }
+        else if (tag.Contains('>', StringComparison.Ordinal))
+        {
+            return "<" + tag;
+        }
+        else
+        {
+            return tag;
+        }
     }
 
     private static SgmlParseResult? TryParseOpeningTag(string line)
@@ -162,17 +187,26 @@ public class SgmlParser
     {
         value = GetValue(value);
 
-        this.currentNode.AddChild(new SgmlElement(tag, value, text, this.currentNode));
+        this.lastValueNode = this.currentNode.AddChild(new SgmlElement(tag, value, text, this.currentNode));
     }
 
     private void ProcessClosingTag(string tag)
     {
         string expectedTag = this.currentNode.Name;
-        if (string.Equals(expectedTag, tag, StringComparison.OrdinalIgnoreCase) == false)
-        {
-            throw new SgmlParseException($"Closing tag '{tag}' does not match opening tag '{expectedTag}', line {this.lineNumber}.");
-        }
+        string expectedvalueTag = this.lastValueNode.Name;
 
-        this.currentNode = this.currentNode.Parent ?? this.root;
+        if (string.Equals(expectedTag, tag, StringComparison.OrdinalIgnoreCase))
+        {
+            this.currentNode = this.currentNode.Parent ?? this.root;
+        }
+        else if (string.Equals(expectedvalueTag, tag, StringComparison.OrdinalIgnoreCase))
+        {
+            // value node has closing tag, so we don't expect it anymore, current node does not change
+            this.lastValueNode = SgmlElement.Empty;
+        }
+        else
+        {
+            throw new SgmlParseException($"Closing tag '{tag}' does not match opening tag '{expectedTag}' or '{expectedvalueTag}', line {this.lineNumber}.");
+        }
     }
 }
