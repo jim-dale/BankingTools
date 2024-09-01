@@ -58,6 +58,22 @@ public class OfxDocumentTests
         Assert.AreEqual(txCount, allTransactions.Count());
     }
 
+    [DataTestMethod]
+    [DynamicData(nameof(SampleOfxFiles), DynamicDataSourceType.Property)]
+    public void OfxDocumentLoadStreamGetStatementsReturnsCorrectNumberOfStatementsAndTransactions(string path, int statementCount, int txCount)
+    {
+        using var stream = File.OpenRead(path);
+
+        var actual = OfxDocument.Load(stream);
+        Assert.IsNotNull(actual);
+
+        OfxStatement[] allStatements = actual.GetStatements().ToArray();
+        Assert.AreEqual(statementCount, allStatements.Length);
+
+        IEnumerable<OfxStatementTransaction> allTransactions = allStatements.SelectMany(s => s.TransactionList!.Transactions);
+        Assert.AreEqual(txCount, allTransactions.Count());
+    }
+
     [TestMethod]
     public void CanParseItau()
     {

@@ -17,14 +17,21 @@ public class SgmlDocument
 
     public static bool TryLoad(string path, [NotNullWhen(true)] out SgmlDocument? result)
     {
+        using FileStream stream = File.OpenRead(path);
+
+        return TryLoad(stream, out result);
+    }
+
+    public static bool TryLoad(Stream stream, [NotNullWhen(true)] out SgmlDocument? result)
+    {
         result = null;
 
-        SgmlHeader? header = new SgmlHeaderParser().TryGetHeader(path);
+        SgmlHeader? header = new SgmlHeaderParser().TryGetHeader(stream);
         if (header != default)
         {
             Encoding encoding = header.GetEncoding();
 
-            SgmlElement root = new SgmlParser().Parse(path, encoding);
+            SgmlElement root = new SgmlParser().Parse(stream, encoding);
             if (root != SgmlElement.Empty)
             {
                 result = new SgmlDocument(header, root);

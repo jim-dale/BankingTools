@@ -17,14 +17,27 @@ public class SgmlParser
     private SgmlElement lastValueNode = SgmlElement.Empty;
 
     /// <summary>
-    /// Parse teh specified file as an SGML formatted OFX document.
+    /// Parse the specified file as an SGML formatted OFX document.
     /// </summary>
     /// <param name="path">The complete file path to the document to be parsed.</param>
     /// <param name="encoding">The document <see cref="Encoding"/>.</param>
     /// <returns>The root SGML element.</returns>
     public SgmlElement Parse(string path, Encoding encoding)
     {
-        using StreamReader reader = new(path, encoding);
+        using FileStream stream = File.OpenRead(path);
+
+        return this.Parse(stream, encoding);
+    }
+
+    /// <summary>
+    /// Parse the specified file as an SGML formatted OFX document.
+    /// </summary>
+    /// <param name="stream">The stream of the document to be parsed.</param>
+    /// <param name="encoding">The document <see cref="Encoding"/>.</param>
+    /// <returns>The root SGML element.</returns>
+    public SgmlElement Parse(Stream stream, Encoding encoding)
+    {
+        using StreamReader reader = new(stream, encoding, leaveOpen: true);
 
         this.lineNumber = new SgmlHeaderParser().SkipToContent(reader);
 

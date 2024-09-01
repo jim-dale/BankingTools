@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -28,17 +29,29 @@ public class OfxDocument
         return Load(path, OfxDocumentSettings.Default);
     }
 
+    public static OfxDocument Load(Stream stream)
+    {
+        return Load(stream, OfxDocumentSettings.Default);
+    }
+
     public static OfxDocument Load(string path, OfxDocumentSettings settings)
+    {
+        using FileStream stream = File.OpenRead(path);
+
+        return Load(stream, settings);
+    }
+
+    public static OfxDocument Load(Stream stream, OfxDocumentSettings settings)
     {
         OfxDocument result;
 
-        if (SgmlDocument.TryLoad(path, out SgmlDocument? sgmlDocument))
+        if (SgmlDocument.TryLoad(stream, out SgmlDocument? sgmlDocument))
         {
             result = new OfxDocument(sgmlDocument, settings);
         }
         else
         {
-            result = new OfxDocument(XDocument.Load(path), settings);
+            result = new OfxDocument(XDocument.Load(stream), settings);
         }
 
         return result;
