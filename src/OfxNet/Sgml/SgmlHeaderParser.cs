@@ -14,11 +14,26 @@ public class SgmlHeaderParser
 
     public SgmlHeader? TryGetHeader(string path)
     {
-        using StreamReader stream = new (path, Encoding.ASCII);
+        using FileStream stream = File.OpenRead(path);
 
-        OfxVersion headerVersion = this.TryGetOfxHeaderVersion(stream);
+        return this.TryGetHeader(stream);
+    }
 
-        return (headerVersion == OfxVersion.HeaderV1) ? this.GetHeader(stream, headerVersion) : default;
+    public SgmlHeader? TryGetHeader(Stream stream)
+    {
+        ArgumentNullException.ThrowIfNull(stream);
+
+        var streamStartPosition = stream.Position;
+
+        using StreamReader reader = new(stream, Encoding.ASCII, leaveOpen: true);
+
+        OfxVersion headerVersion = this.TryGetOfxHeaderVersion(reader);
+
+        SgmlHeader? result = (headerVersion == OfxVersion.HeaderV1) ? this.GetHeader(reader, headerVersion) : default;
+
+        stream.Position = streamStartPosition;
+
+        return result;
     }
 
     public int SkipToContent(TextReader reader)
