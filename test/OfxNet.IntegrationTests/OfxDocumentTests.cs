@@ -136,12 +136,13 @@ public class OfxDocumentTests
         Assert.IsNotNull(bankStatement);
         Assert.IsNotNull(bankStatement.Account);
 
-        // Assert.AreEqual(bankStatement.Account.AccountNumber, "9999999999999");
-        // Assert.IsNull(bankStatement.Account.BranchId);
-        // Assert.AreEqual(bankStatement.Account.BankId, "033");
+        Assert.AreEqual(bankStatement.Account.AccountNumber, "9999999999999");
+        Assert.IsNull(bankStatement.Account.BranchId);
+        Assert.AreEqual(bankStatement.Account.BankId, "033");
         Assert.IsNotNull(statement.TransactionList);
 
-        // Assert.AreEqual(3, statement.TransactionList.Transactions.Count);
+        Assert.AreEqual(3, statement.TransactionList.Transactions.Count);
+
         Assert.IsNull(bankStatement.LedgerBalance);
     }
 }

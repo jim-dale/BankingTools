@@ -41,7 +41,7 @@ NEWFILEUID:NONE
                     <DTSTART>20140203182251[-3:GMT]
                     <DTEND>20140203182251[-3:GMT]
                     <STMTTRN>
-                        <TRNTYPE>OTHER
+                        <TRNTYPE>Other
                         <DTPOSTED>20131107000000[-3:GMT]
                         <TRNAMT>            -11.11
                         <FITID>00510367
@@ -50,7 +50,7 @@ NEWFILEUID:NONE
                         <MEMO>DEBITO VISA ELECTRON BRASIL        
                     </STMTTRN>
                     <STMTTRN>
-                        <TRNTYPE>OTHER
+                        <TRNTYPE>Other
                         <DTPOSTED>20131107000000[-3:GMT]
                         <TRNAMT>           -222,22
                         <FITID>00000105
