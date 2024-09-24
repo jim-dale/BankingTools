@@ -273,16 +273,23 @@ public class OfxDocument
             };
     }
 
-    [return: NotNullIfNotNull(nameof(element))]
     public OfxAccountBalance? GetAccountBalance(IOfxElement? element)
     {
-        return (element is null)
-            ? null
-            : new OfxAccountBalance
+        OfxAccountBalance? result = null;
+        if (element != null)
+        {
+            decimal? balance = this.GetAsNullableDecimal(element, OfxConstants.BalanceAmount);
+            if (balance.HasValue)
             {
-                Balance = this.GetAsRequiredDecimal(element, OfxConstants.BalanceAmount, "Missing or invalid balance from balance element."),
-                DateAsOf = this.GetAsDateTimeOffset(element, OfxConstants.DateAsOf),
-            };
+                result = new OfxAccountBalance
+                {
+                    Balance = balance.Value,
+                    DateAsOf = this.GetAsDateTimeOffset(element, OfxConstants.DateAsOf),
+                };
+            }
+        }
+
+        return result;
     }
 
     public OfxStatus? GetStatus(IOfxElement? element)
@@ -368,6 +375,19 @@ public class OfxDocument
         if (nullOrWhiteSpace || notDecimal)
         {
             throw new OfxException(errorString);
+        }
+
+        return value;
+    }
+
+    private decimal? GetAsNullableDecimal(IOfxElement parent, string name)
+    {
+        string? s = this.GetAsString(parent, name);
+
+        (bool nullOrWhiteSpace, bool notDecimal, decimal value) = OfxParser.ParseDecimal(s);
+        if (nullOrWhiteSpace || notDecimal)
+        {
+            return default(decimal?);
         }
 
         return value;
