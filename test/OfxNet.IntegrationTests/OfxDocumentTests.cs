@@ -127,8 +127,7 @@ public class OfxDocumentTests
     [TestMethod]
     public void CanParseEmptyBalance()
     {
-        // IEnumerable<OfxStatement> actual = OfxDocument.Load("Sample-empty-balance.ofx")
-        IEnumerable<OfxStatement> actual = OfxDocument.Load("test.ofx")
+        IEnumerable<OfxStatement> actual = OfxDocument.Load("Sample-empty-balance.ofx")
             .GetStatements();
 
         OfxStatement statement = actual.First();
