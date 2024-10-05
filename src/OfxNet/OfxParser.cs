@@ -156,7 +156,7 @@ public static class OfxParser
     /// <returns>The <see cref="OfxTransactionType"/> result of parsing the specified string.</returns>
     public static OfxTransactionType ParseTransactionType(string? s)
     {
-        return ParseEnumString<OfxTransactionType>(s);
+        return ParseEnumString<OfxTransactionType>(s?.ToUpperInvariant());
     }
 
     /// <summary>

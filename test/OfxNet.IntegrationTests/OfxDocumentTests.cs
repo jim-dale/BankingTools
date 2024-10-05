@@ -13,6 +13,7 @@ public class OfxDocumentTests
     {
         get
         {
+            yield return new object[] { "Sample-empty-balance.ofx", 1, 3 };
             yield return new object[] { "SampleBankStatement-1.ofx", 1, 3 };
             yield return new object[] { "SampleBankStatement-2.ofx", 1, 2 };
             yield return new object[] { "SampleCreditCardStatement.ofx", 1, 1 };
@@ -121,5 +122,27 @@ public class OfxDocumentTests
 
         string?[] actualMemos = statement.TransactionList.Transactions.Select(x => x.Memo).ToArray();
         CollectionAssert.AreEqual(actualMemos, expectedMemos);
+    }
+
+    [TestMethod]
+    public void CanParseEmptyBalance()
+    {
+        IEnumerable<OfxStatement> actual = OfxDocument.Load("Sample-empty-balance.ofx")
+            .GetStatements();
+
+        OfxStatement statement = actual.First();
+        Assert.IsInstanceOfType(statement, typeof(OfxBankStatement));
+        var bankStatement = statement as OfxBankStatement;
+        Assert.IsNotNull(bankStatement);
+        Assert.IsNotNull(bankStatement.Account);
+
+        Assert.AreEqual(bankStatement.Account.AccountNumber, "9999999999999");
+        Assert.IsNull(bankStatement.Account.BranchId);
+        Assert.AreEqual(bankStatement.Account.BankId, "033");
+        Assert.IsNotNull(statement.TransactionList);
+
+        Assert.AreEqual(3, statement.TransactionList.Transactions.Count);
+
+        Assert.IsNull(bankStatement.LedgerBalance);
     }
 }
