@@ -19,6 +19,9 @@ public readonly struct XElementAdapter : IOfxElement
         this.element = element;
     }
 
+    /// <inheritdoc/>
+    public string Name => this.element.Name.LocalName;
+
     public string Value => this.element.Value;
 
     IOfxElement? IOfxElement.Element(string name, StringComparer comparer)
@@ -35,6 +38,16 @@ public readonly struct XElementAdapter : IOfxElement
     {
         return from element in this.element.Elements()
                where comparer.Equals(name, element.Name.LocalName)
+               select new XElementAdapter(element) as IOfxElement;
+    }
+
+    /// <inheritdoc/>
+    public IEnumerable<IOfxElement> Elements(string[] names, StringComparer comparer)
+    {
+        HashSet<string> namesHash = new(names, comparer);
+
+        return from element in this.element.Elements()
+               where namesHash.Contains(element.Name.LocalName)
                select new XElementAdapter(element) as IOfxElement;
     }
 }

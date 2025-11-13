@@ -1,8 +1,6 @@
 ﻿namespace OfxNet;
 
-using System.Reflection.PortableExecutable;
 using System.Text.RegularExpressions;
-using Microsoft.VisualBasic;
 
 /// <summary>
 /// OFX SGML constants used during parsing.

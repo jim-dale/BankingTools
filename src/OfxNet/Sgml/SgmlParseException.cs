@@ -1,7 +1,6 @@
 namespace OfxNet;
 
 using System;
-using System.Runtime.Serialization;
 
 [Serializable]
 public class SgmlParseException : Exception

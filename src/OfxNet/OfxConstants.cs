@@ -1,9 +1,5 @@
 ﻿namespace OfxNet;
-
-using System;
-using System.Diagnostics.Metrics;
 using System.Globalization;
-using System.Transactions;
 
 /// <summary>
 /// Constants for parsing OFX documents.

@@ -1,0 +1,110 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:USASCII
+CHARSET:1252
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+COMMENT: Contains a INVBANKTRAN with all optional elements specified.
+
+<OFX>
+  <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS><CODE>0<SEVERITY>INFO<MESSAGE>Signon Successful</STATUS>
+      <DTSERVER>20251114120000<LANGUAGE>ENG
+      <FI><ORG>Universal Test Brokerage<FID>55555</FI>
+      <INTU.BID>55555
+    </SONRS>
+  </SIGNONMSGSRSV1>
+
+  <INVSTMTMSGSRSV1>
+    <INVSTMTTRNRS>
+      <TRNUID>5001
+      <STATUS><CODE>0<SEVERITY>INFO</STATUS>
+      <INVSTMTRS>
+        <DTASOF>20251114160000<CURDEF>USD
+        <INVACCTFROM><BROKERID>testbroker.com<ACCTID>ALLTXN01</INVACCTFROM>
+
+        <INVTRANLIST>
+          <DTSTART>20251001000000<DTEND>20251114160000
+          <INVBANKTRAN>
+            <STMTTRN>
+              <TRNTYPE>DEBIT</TRNTYPE>
+              <DTPOSTED>20251015</DTPOSTED>
+              <DTUSER>20251014</DTUSER>
+              <DTAVAIL>20251016</DTAVAIL>
+              <TRNAMT>-250.00</TRNAMT>
+              <FITID>INVBT123456</FITID>
+              <CORRECTFITID>INVBT123455</CORRECTFITID>
+              <CORRECTACTION>REPLACE</CORRECTACTION>
+              <SRVRTID>SRVR98765</SRVRTID>
+              <CHECKNUM>1001</CHECKNUM>
+              <REFNUM>REF998877</REFNUM>
+              <SIC>5734</SIC>
+              <PAYEEID>PAYEE123</PAYEEID>
+              <NAME>Brokerage Transfer</NAME>
+              <BANKACCTTO>
+                <BANKID>123456789</BANKID>
+                <ACCTID>987654321</ACCTID>
+                <ACCTTYPE>CHECKING</ACCTTYPE>
+              </BANKACCTTO>
+              <MEMO>Investment banking transaction with NAME</MEMO>
+              <CURRENCY>
+                <CURRATE>1.0</CURRATE>
+                <CURSYM>USD</CURSYM>
+              </CURRENCY>
+            </STMTTRN>
+            <SUBACCTFUND>CASH</SUBACCTFUND>
+          </INVBANKTRAN>
+          <INVBANKTRAN>
+            <STMTTRN>
+              <TRNTYPE>DEBIT</TRNTYPE>
+              <DTPOSTED>20251015</DTPOSTED>
+              <DTUSER>20251014</DTUSER>
+              <DTAVAIL>20251016</DTAVAIL>
+              <TRNAMT>-250.00</TRNAMT>
+              <FITID>INVBT123456</FITID>
+              <CORRECTFITID>INVBT123455</CORRECTFITID>
+              <CORRECTACTION>REPLACE</CORRECTACTION>
+              <SRVRTID>SRVR98765</SRVRTID>
+              <CHECKNUM>1001</CHECKNUM>
+              <REFNUM>REF998877</REFNUM>
+              <SIC>5734</SIC>
+              <PAYEEID>PAYEE456</PAYEEID>
+              <PAYEE>
+                <NAME>Fictitious Utility</NAME>
+                <ADDR1>123 Power Lane</ADDR1>
+                <ADDR2>Dept. Q</ADDR2>
+                <ADDR3>This field exists, too.</ADDR3>
+                <CITY>New York</CITY>
+                <STATE>NY</STATE>
+                <POSTALCODE>10286</POSTALCODE>
+                <COUNTRY>USA</COUNTRY>
+                <PHONE>555-867-5309,</PHONE>
+              </PAYEE>
+              <BANKACCTTO>
+                <BANKID>123456789</BANKID>
+                <ACCTID>987654321</ACCTID>
+                <ACCTTYPE>CHECKING</ACCTTYPE>
+              </BANKACCTTO>
+              <MEMO>Investment banking transaction with PAYEE</MEMO>
+              <CURRENCY>
+                <CURRATE>1.0</CURRATE>
+                <CURSYM>USD</CURSYM>
+              </CURRENCY>
+            </STMTTRN>
+            <SUBACCTFUND>CASH</SUBACCTFUND>
+          </INVBANKTRAN>
+        </INVTRANLIST>
+
+        <INVBAL>
+          <AVAILCASH>500.00
+          <MARGINBALANCE>0.0
+          <SHORTBALANCE>0.0
+        </INVBAL>
+      </INVSTMTRS>
+    </INVSTMTTRNRS>
+  </INVSTMTMSGSRSV1>
+</OFX>

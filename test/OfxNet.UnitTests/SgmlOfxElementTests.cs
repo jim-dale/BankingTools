@@ -1,9 +1,11 @@
 ﻿namespace OfxNet.UnitTests;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class SgmlOfxElementTests
 {
     [TestMethod]

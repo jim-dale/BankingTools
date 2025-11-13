@@ -1,0 +1,6 @@
+root = false
+
+# Test code
+[*.{cs,csx,vb,vbx,h,cpp,idl}]
+# Because an application's API isn't typically referenced from outside the assembly, types can be made internal
+dotnet_diagnostic.CA1515.severity = suggestion
