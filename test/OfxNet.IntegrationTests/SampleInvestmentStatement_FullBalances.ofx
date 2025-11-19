@@ -1,0 +1,50 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:USASCII
+CHARSET:1252
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+COMMENT: Contains three different statements
+
+<OFX>
+  <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS><CODE>0<SEVERITY>INFO<MESSAGE>Signon Successful</STATUS>
+      <DTSERVER>20251114120000<LANGUAGE>ENG
+      <FI><ORG>Fictional Brokerage<FID>77777</FI>
+      <INTU.BID>77777
+    </SONRS>
+  </SIGNONMSGSRSV1>
+  <INVSTMTMSGSRSV1>
+    <INVSTMTTRNRS>
+      <TRNUID>3001
+      <STATUS><CODE>0<SEVERITY>INFO</STATUS>
+      <INVSTMTRS>
+        <CURDEF>USD
+        <DTASOF>20251114160000
+        <INVACCTFROM><BROKERID>fictional.com<ACCTID>ACC11111</INVACCTFROM>
+        <INVBAL>
+          <AVAILCASH>1000.00
+          <MARGINBALANCE>0.0
+          <SHORTBALANCE>0.0
+          <BALLIST>
+            <BAL>
+              <NAME>Other balance</NAME>
+              <DESC>Funds part of some other balance.</DESC>
+              <BALTYPE>AVAIL</BALTYPE>
+              <VALUE>15234.56</VALUE>
+              <DTASOF>20251118180000</DTASOF>
+              <CURRENCY>
+                <CURRATE>1.0000</CURRATE>
+                <CURSYM>USD</CURSYM>
+              </CURRENCY>
+            </BAL>
+          </BALLIST>
+        </INVBAL>
+      </INVSTMTRS>
+    </INVSTMTTRNRS>
+  </INVSTMTMSGSRSV1>
+</OFX>

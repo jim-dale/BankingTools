@@ -6,6 +6,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using OfxNet.Investments;
+using OfxNet.Investments.Securities;
 
 public class OfxDocument
 {
@@ -346,6 +348,85 @@ public class OfxDocument
         }
 
         return result;
+    }
+
+    /// <summary>Enumerates all investment statements in the current document.</summary>
+    /// <returns>
+    /// An enumeration of <see cref="OfxInvestmentStatement"/>s. Returns an empty enumeration if
+    /// no investment statements are present in the document.
+    /// </returns>
+    /// <exception cref="OfxException">
+    /// Thrown if any of the investment statements found could not be property processed.
+    /// </exception>
+    public IEnumerable<OfxInvestmentStatement> GetInvestmentStatements()
+    {
+        IOfxElement? set = this.GetRoot()?.TryGetElement(OfxInvestmentElementConstants.InvestmentStatementMessageSetResponseV1Element, this.Settings);
+        if (set is null)
+        {
+            yield break;
+        }
+
+        IEnumerable<IOfxElement> responses = set.Elements(OfxInvestmentElementConstants.InvestmentStatementTransactionResponseElement, this.Settings.TagComparer);
+
+        foreach (IOfxElement response in responses)
+        {
+            IOfxElement? statementElement = response.TryGetElement(OfxInvestmentElementConstants.InvestmentStatementResponseElement, this.Settings);
+            if (statementElement != null)
+            {
+                yield return new OfxInvestmentStatement(statementElement, this.Settings);
+            }
+        }
+    }
+
+    /// <summary>Processes the provided <paramref name="element"/> as an investment statement.</summary>
+    /// <param name="element">The <see cref="IOfxElement"/> to be processed.</param>
+    /// <returns>The resulting <see cref="OfxInvestmentStatement"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the provided <paramref name="element"/> is null.</exception>
+    /// <exception cref="OfxException">
+    /// Thrown if the <paramref name="element"/> could not be processed as a <see cref="OfxInvestmentStatement"/>. See
+    /// the inner exception for additional details.
+    /// </exception>
+    public OfxInvestmentStatement? GetInvestmentStatement(IOfxElement element)
+    {
+        ArgumentNullException.ThrowIfNull(element);
+
+        try
+        {
+            return new OfxInvestmentStatement(element, this.Settings);
+        }
+        catch (Exception exception)
+        {
+            throw new OfxException(
+                $"Unable to process element '{element.Name}' as an investment statement.",
+                exception);
+        }
+    }
+
+    /// <summary>Gets the list of securities present in the document.</summary>
+    /// <returns>
+    /// An enumeration of <see cref="OfxSecurity"/> objects. Returns an empty enumeration if
+    /// no security information is present.
+    /// </returns>
+    public IEnumerable<OfxSecurity> GetSecurities()
+    {
+        IOfxElement? response = this.GetRoot()?.TryGetElement(OfxInvestmentElementConstants.SecurityListMessagetResponseElementV1, this.Settings);
+
+        if (response is null)
+        {
+            yield break;
+        }
+
+        IOfxElement? list = response.TryGetElement(OfxInvestmentElementConstants.SecurityListElement, this.Settings);
+
+        if (list is not null)
+        {
+            OfxSecurityList securityList = new OfxSecurityList(list, this.Settings);
+
+            foreach (var security in securityList.Securities)
+            {
+                yield return security;
+            }
+        }
     }
 
     private int GetAsRequiredInteger(IOfxElement parent, string name, string errorString)

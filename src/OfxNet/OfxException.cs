@@ -1,7 +1,6 @@
 ﻿namespace OfxNet;
 
 using System;
-using System.Runtime.Serialization;
 
 /// <summary>
 /// Represents errors that occur during parsing OFX documents.

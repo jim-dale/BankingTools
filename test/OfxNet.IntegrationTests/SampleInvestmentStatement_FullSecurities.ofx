@@ -1,0 +1,177 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:UTF-8
+CHARSET:NONE
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+COMMENT: Contains a SECLIST with one of each security type with all optional fields.
+
+<OFX>
+   <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS><CODE>0</CODE><SEVERITY>INFO</SEVERITY></STATUS>
+      <DTSERVER>19991029101003</DTSERVER>
+      <LANGUAGE>ENG</LANGUAGE>
+      <DTPROFUP>19991029101003</DTPROFUP>
+      <DTACCTUP>19991029101003</DTACCTUP>
+      <FI><ORG>Fictitious Securities</ORG><FID>42</FID></FI>
+    </SONRS>
+  </SIGNONMSGSRSV1>
+  <SECLISTMSGSRSV1>
+    <SECLIST>
+      <DEBTINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>DBT111111</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>Corporate Bond 2030</SECNAME>
+          <TICKER>CBND30</TICKER>
+          <FIID>FIBROKER4</FIID>
+          <RATING>AA</RATING>
+          <UNITPRICE>102.50</UNITPRICE>
+          <DTASOF>20251015</DTASOF>
+          <CURRENCY>
+            <CURRATE>1.0</CURRATE>
+            <CURSYM>USD</CURSYM>
+          </CURRENCY>
+          <MEMO>Debt Example</MEMO>
+        </SECINFO>
+        <PARVALUE>1000</PARVALUE>
+        <DEBTTYPE>Bond</DEBTTYPE>
+        <DEBTCLASS>Corporate</DEBTCLASS>
+        <COUPONRT>0.05</COUPONRT>
+        <DTCOUPON>20251101</DTCOUPON>
+        <COUPONFREQ>Semiannual</COUPONFREQ>
+        <CALLPRICE>101.00</CALLPRICE>
+        <YIELDTOCALL>0.048</YIELDTOCALL>
+        <DTCALL>20251201</DTCALL>
+        <CALLTYPE>Callable</CALLTYPE>
+        <YIELDTOMAT>0.05</YIELDTOMAT>
+        <DTMAT>20301231</DTMAT>
+        <ASSETCLASS>Fixed Income</ASSETCLASS>
+        <FIASSETCLASS>Corporate Bond</FIASSETCLASS>
+      </DEBTINFO>
+      <MFINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>MF123456</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>Global Equity Fund</SECNAME>
+          <TICKER>GEQF</TICKER>
+          <FIID>FIBROKER1</FIID>
+          <RATING>AAA</RATING>
+          <UNITPRICE>25.75</UNITPRICE>
+          <DTASOF>20251015</DTASOF>
+          <CURRENCY>
+            <CURRATE>1.0</CURRATE>
+            <CURSYM>USD</CURSYM>
+          </CURRENCY>
+          <MEMO>Mutual Fund Example</MEMO>
+        </SECINFO>
+        <MFTYPE>Growth</MFTYPE>
+        <YIELD>0.045</YIELD>
+        <DTYIELDASOF>20251001</DTYIELDASOF>
+        <MFASSETCLASS>
+          <PORTION>
+            <ASSETCLASS>Equity</ASSETCLASS>
+            <PERCENT>70</PERCENT>
+          </PORTION>
+          <PORTION>
+            <ASSETCLASS>Bond</ASSETCLASS>
+            <PERCENT>30</PERCENT>
+          </PORTION>
+        </MFASSETCLASS>
+        <FIMFASSETCLASS>
+          <FIPORTION>
+            <FIASSETCLASS>Domestic Equity</FIASSETCLASS>
+            <PERCENT>60</PERCENT>
+          </FIPORTION>
+          <FIPORTION>
+            <FIASSETCLASS>International Equity</FIASSETCLASS>
+            <PERCENT>40</PERCENT>
+          </FIPORTION>
+        </FIMFASSETCLASS>
+      </MFINFO>
+      <OPTINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>OPT555555</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>TechCorp Call Option</SECNAME>
+          <TICKER>TCORP-CALL</TICKER>
+          <FIID>FIBROKER3</FIID>
+          <RATING>Speculative</RATING>
+          <UNITPRICE>5.25</UNITPRICE>
+          <DTASOF>20251015</DTASOF>
+          <CURRENCY>
+            <CURRATE>1.0</CURRATE>
+            <CURSYM>USD</CURSYM>
+          </CURRENCY>
+          <MEMO>Option Example</MEMO>
+        </SECINFO>
+        <OPTTYPE>CALL</OPTTYPE>
+        <STRIKEPRICE>120.00</STRIKEPRICE>
+        <DTEXPIRE>20251231</DTEXPIRE>
+        <SHPERCTRCT>100</SHPERCTRCT>
+        <SECID>
+          <UNIQUEID>STK987654</UNIQUEID>
+          <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+        </SECID>
+        <ASSETCLASS>Derivative</ASSETCLASS>
+        <FIASSETCLASS>Equity Option</FIASSETCLASS>
+      </OPTINFO>
+      <OTHERINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>OTH222222</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>Commodity Future</SECNAME>
+          <TICKER>CMDFUT</TICKER>
+          <FIID>FIBROKER5</FIID>
+          <RATING>High Risk</RATING>
+          <UNITPRICE>75.00</UNITPRICE>
+          <DTASOF>20251015</DTASOF>
+          <CURRENCY>
+            <CURRATE>1.0</CURRATE>
+            <CURSYM>USD</CURSYM>
+          </CURRENCY>
+          <MEMO>Other Security Example</MEMO>
+        </SECINFO>
+        <TYPEDESC>Commodity Future Contract</TYPEDESC>
+        <ASSETCLASS>Alternative</ASSETCLASS>
+        <FIASSETCLASS>Commodities</FIASSETCLASS>
+      </OTHERINFO>
+      <STOCKINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>STK987654</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>TechCorp Inc.</SECNAME>
+          <TICKER>TCORP</TICKER>
+          <FIID>FIBROKER2</FIID>
+          <RATING>A</RATING>
+          <UNITPRICE>150.00</UNITPRICE>
+          <DTASOF>20251015</DTASOF>
+          <CURRENCY>
+            <CURRATE>1.0</CURRATE>
+            <CURSYM>USD</CURSYM>
+          </CURRENCY>
+          <MEMO>Stock Example</MEMO>
+        </SECINFO>
+        <STOCKTYPE>Common</STOCKTYPE>
+        <YIELD>0.02</YIELD>
+        <DTYIELDASOF>20251001</DTYIELDASOF>
+        <ASSETCLASS>Equity</ASSETCLASS>
+        <FIASSETCLASS>Technology</FIASSETCLASS>
+      </STOCKINFO>
+    </SECLIST>
+  </SECLISTMSGSRSV1>
+</OFX>

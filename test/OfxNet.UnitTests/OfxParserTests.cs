@@ -2,9 +2,11 @@ namespace OfxNet.UnitTests;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class OfxParserTests
 {
     private static IEnumerable<object[]> IntegerParserTestData

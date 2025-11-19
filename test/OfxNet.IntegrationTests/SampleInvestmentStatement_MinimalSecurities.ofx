@@ -1,0 +1,78 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:UTF-8
+CHARSET:NONE
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+COMMENT: Contains a SECLIST with one of each security type with only required fields
+
+<OFX>
+   <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS><CODE>0</CODE><SEVERITY>INFO</SEVERITY></STATUS>
+      <DTSERVER>19991029101003</DTSERVER>
+      <LANGUAGE>ENG</LANGUAGE>
+      <DTPROFUP>19991029101003</DTPROFUP>
+      <DTACCTUP>19991029101003</DTACCTUP>
+      <FI><ORG>Fictitious Securities</ORG><FID>42</FID></FI>
+    </SONRS>
+  </SIGNONMSGSRSV1>
+  <SECLISTMSGSRSV1>
+    <SECLIST>
+      <DEBTINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>DBT111111</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>Corporate Bond 2030</SECNAME>
+        </SECINFO>
+        <PARVALUE>1000</PARVALUE>
+        <DEBTTYPE>Bond</DEBTTYPE>
+      </DEBTINFO>
+      <MFINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>MF123456</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>Global Equity Fund</SECNAME>
+        </SECINFO>
+      </MFINFO>
+      <OPTINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>OPT555555</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>TechCorp Call Option</SECNAME>
+        </SECINFO>
+        <OPTTYPE>CALL</OPTTYPE>
+        <STRIKEPRICE>120.00</STRIKEPRICE>
+        <DTEXPIRE>20251231</DTEXPIRE>
+        <SHPERCTRCT>100</SHPERCTRCT>
+      </OPTINFO>
+      <OTHERINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>OTH222222</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>Commodity Future</SECNAME>
+        </SECINFO>
+      </OTHERINFO>
+      <STOCKINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>STK987654</UNIQUEID>
+            <UNIQUEIDTYPE>CUSIP</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>TechCorp Inc.</SECNAME>
+        </SECINFO>
+      </STOCKINFO>
+    </SECLIST>
+  </SECLISTMSGSRSV1>
+</OFX>
