@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 [ExcludeFromCodeCoverage]
+[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "Unit tests")]
 public class OfxParserTests
 {
     private static IEnumerable<object[]> IntegerParserTestData
@@ -58,11 +59,11 @@ public class OfxParserTests
     {
         (bool NullOrWhiteSpace, bool NotInteger, int Value) actual = OfxParser.ParseInteger(null);
 
-        Assert.AreEqual((true, false, default(int)), actual);
+        Assert.AreEqual((true, false, default), actual);
     }
 
-    [DataTestMethod]
-    [DynamicData(nameof(IntegerParserTestData), DynamicDataSourceType.Property)]
+    [TestMethod]
+    [DynamicData(nameof(IntegerParserTestData))]
     public void ParseIntegerWithStringReturnsExpectedValue(string str, (bool NullOrEmpty, bool NotInteger, int Value) expected)
     {
         (bool NullOrWhiteSpace, bool NotInteger, int Value) actual = OfxParser.ParseInteger(str);
@@ -75,11 +76,11 @@ public class OfxParserTests
     {
         (bool NullOrWhiteSpace, bool NotDecimal, decimal Value) actual = OfxParser.ParseDecimal(null);
 
-        Assert.AreEqual((true, false, default(decimal)), actual);
+        Assert.AreEqual((true, false, default), actual);
     }
 
-    [DataTestMethod]
-    [DynamicData(nameof(DecimalParserTestData), DynamicDataSourceType.Property)]
+    [TestMethod]
+    [DynamicData(nameof(DecimalParserTestData))]
     public void ParseDecimalWithStringReturnsExpectedValue(string str, (bool NullOrEmpty, bool NotDecimal, decimal Value) expected)
     {
         (bool NullOrWhiteSpace, bool NotDecimal, decimal Value) actual = OfxParser.ParseDecimal(str);
@@ -87,8 +88,8 @@ public class OfxParserTests
         Assert.AreEqual(expected, actual);
     }
 
-    [DataTestMethod]
-    [DynamicData(nameof(OfxDateTimeTestData), DynamicDataSourceType.Property)]
+    [TestMethod]
+    [DynamicData(nameof(OfxDateTimeTestData))]
     public void ParseDateTimeWithValidStringReturnsCorrectDateTime(string str, DateTimeOffset expected)
     {
         DateTimeOffset actual = OfxParser.ParseDateTime(str);
@@ -96,8 +97,8 @@ public class OfxParserTests
         Assert.AreEqual(expected, actual);
     }
 
-    [DataTestMethod]
-    [DynamicData(nameof(OfxAccountTypeTestData), DynamicDataSourceType.Property)]
+    [TestMethod]
+    [DynamicData(nameof(OfxAccountTypeTestData))]
     public void ParseOfxAccountTypeWithValidStringReturnsExpectedValue(string str, OfxAccountType expected)
     {
         OfxAccountType actual = OfxParser.ParseAccountType(str);

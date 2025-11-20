@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <PackageProjectUrl>https://github.com/jim-dale/BankingTools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jim-dale/BankingTools.git</RepositoryUrl>
@@ -14,4 +15,5 @@
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
   </ItemGroup>
+
 </Project>

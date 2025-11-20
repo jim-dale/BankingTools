@@ -41,8 +41,8 @@ public class OfxDocumentTests
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
     }
 
-    [DataTestMethod]
-    [DynamicData(nameof(SampleOfxFiles), DynamicDataSourceType.Property)]
+    [TestMethod]
+    [DynamicData(nameof(SampleOfxFiles))]
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required for testing.")]
     public void OfxDocumentLoadSucceeds(string path, int statementCount, int txCount)
     {
@@ -50,22 +50,22 @@ public class OfxDocumentTests
         Assert.IsNotNull(actual);
     }
 
-    [DataTestMethod]
-    [DynamicData(nameof(SampleOfxFiles), DynamicDataSourceType.Property)]
+    [TestMethod]
+    [DynamicData(nameof(SampleOfxFiles))]
     public void OfxDocumentLoadGetStatementsReturnsCorrectNumberOfStatementsAndTransactions(string path, int statementCount, int txCount)
     {
         var actual = OfxDocument.Load(path);
         Assert.IsNotNull(actual);
 
         OfxStatement[] allStatements = actual.GetStatements().ToArray();
-        Assert.AreEqual(statementCount, allStatements.Length);
+        Assert.HasCount(statementCount, allStatements);
 
         IEnumerable<OfxStatementTransaction> allTransactions = allStatements.SelectMany(s => s.TransactionList!.Transactions);
         Assert.AreEqual(txCount, allTransactions.Count());
     }
 
-    [DataTestMethod]
-    [DynamicData(nameof(SampleOfxFiles), DynamicDataSourceType.Property)]
+    [TestMethod]
+    [DynamicData(nameof(SampleOfxFiles))]
     public void OfxDocumentLoadStreamGetStatementsReturnsCorrectNumberOfStatementsAndTransactions(string path, int statementCount, int txCount)
     {
         using var stream = File.OpenRead(path);
@@ -74,7 +74,7 @@ public class OfxDocumentTests
         Assert.IsNotNull(actual);
 
         OfxStatement[] allStatements = actual.GetStatements().ToArray();
-        Assert.AreEqual(statementCount, allStatements.Length);
+        Assert.HasCount(statementCount, allStatements);
 
         IEnumerable<OfxStatementTransaction> allTransactions = allStatements.SelectMany(s => s.TransactionList!.Transactions);
         Assert.AreEqual(txCount, allTransactions.Count());
@@ -98,7 +98,7 @@ public class OfxDocumentTests
         Assert.AreEqual("0341", bankStatement.Account.BankId);
 
         Assert.IsNotNull(statement.TransactionList);
-        Assert.AreEqual(3, statement.TransactionList.Transactions.Count);
+        Assert.HasCount(3, statement.TransactionList.Transactions);
 
         string?[] actualMemos = statement.TransactionList.Transactions.Select(x => x.Memo).ToArray();
         CollectionAssert.AreEqual(actualMemos, expectedMemos);
@@ -118,12 +118,12 @@ public class OfxDocumentTests
         Assert.IsNotNull(bankStatement);
         Assert.IsNotNull(bankStatement.Account);
 
-        Assert.AreEqual(bankStatement.Account.AccountNumber, "99999-9");
-        Assert.AreEqual(bankStatement.Account.BranchId, "9999-9");
-        Assert.AreEqual(bankStatement.Account.BankId, "1");
+        Assert.AreEqual("99999-9", bankStatement.Account.AccountNumber);
+        Assert.AreEqual("9999-9", bankStatement.Account.BranchId);
+        Assert.AreEqual("1", bankStatement.Account.BankId);
 
         Assert.IsNotNull(statement.TransactionList);
-        Assert.AreEqual(3, statement.TransactionList.Transactions.Count);
+        Assert.HasCount(3, statement.TransactionList.Transactions);
 
         string?[] actualMemos = statement.TransactionList.Transactions.Select(x => x.Memo).ToArray();
         CollectionAssert.AreEqual(actualMemos, expectedMemos);
@@ -141,12 +141,12 @@ public class OfxDocumentTests
         Assert.IsNotNull(bankStatement);
         Assert.IsNotNull(bankStatement.Account);
 
-        Assert.AreEqual(bankStatement.Account.AccountNumber, "9999999999999");
+        Assert.AreEqual("9999999999999", bankStatement.Account.AccountNumber);
         Assert.IsNull(bankStatement.Account.BranchId);
-        Assert.AreEqual(bankStatement.Account.BankId, "033");
+        Assert.AreEqual("033", bankStatement.Account.BankId);
         Assert.IsNotNull(statement.TransactionList);
 
-        Assert.AreEqual(3, statement.TransactionList.Transactions.Count);
+        Assert.HasCount(3, statement.TransactionList.Transactions);
 
         Assert.IsNull(bankStatement.LedgerBalance);
     }
@@ -182,9 +182,9 @@ public class OfxDocumentTests
             statement.Balances!.Other,
             "'other' balance should have been populated.");
 
-        Assert.AreEqual(
+        Assert.HasCount(
             1,
-            statement.Balances!.Other.Count,
+            statement.Balances!.Other,
             "One 'other' balance should have been loaded.");
 
         OfxBalance other = statement.Balances!.Other[0];
@@ -246,9 +246,9 @@ public class OfxDocumentTests
             statement.Transactions,
             "A transaction list should be loaded.");
 
-        Assert.AreEqual(
+        Assert.HasCount(
             2,
-            statement.Transactions!.BankTransactions.Count,
+            statement.Transactions!.BankTransactions,
             "Two bank transactions should have been loaded.");
 
         // TODO: Validate the transaction has all the expected values.
@@ -271,9 +271,9 @@ public class OfxDocumentTests
             statement.Positions,
             "A position list should be loaded.");
 
-        Assert.AreEqual(
+        Assert.HasCount(
             5,
-            statement.Positions!.InvestmentPositions.Count,
+            statement.Positions!.InvestmentPositions,
             "Five positions should have been loaded.");
 
         Assert.AreEqual(
@@ -329,9 +329,9 @@ public class OfxDocumentTests
             statement.Transactions,
             "A transaction list should be loaded.");
 
-        Assert.AreEqual(
+        Assert.HasCount(
             20,
-            statement.Transactions!.InvestmentTransactions.Count,
+            statement.Transactions!.InvestmentTransactions,
             "Twenty transactions should have been loaded.");
 
         Assert.AreEqual(
@@ -436,9 +436,9 @@ public class OfxDocumentTests
         OfxDocument document = OfxDocument.Load(@"SampleInvestmentStatement_MinimalStatement.ofx");
         List<OfxInvestmentStatement> statements = document.GetInvestmentStatements().ToList();
 
-        Assert.AreEqual(
+        Assert.HasCount(
             1,
-            document.GetInvestmentStatements().Count(),
+            statements,
             "Investment statement should have been loaded.");
     }
 
@@ -448,9 +448,9 @@ public class OfxDocumentTests
         OfxDocument document = OfxDocument.Load(@"SampleInvestmentStatement_MinimalTransactions.ofx");
         List<OfxInvestmentStatement> statements = document.GetInvestmentStatements().ToList();
 
-        Assert.AreEqual(
+        Assert.HasCount(
             1,
-            document.GetInvestmentStatements().Count(),
+            statements,
             "Investment statement should have been loaded.");
 
         OfxInvestmentStatement statement = statements.First();
@@ -459,9 +459,9 @@ public class OfxDocumentTests
             statement.Transactions,
             "A transaction list should be loaded.");
 
-        Assert.AreEqual(
+        Assert.HasCount(
             20,
-            statement.Transactions!.InvestmentTransactions.Count,
+            statement.Transactions!.InvestmentTransactions,
             "Twenty transactions should have been loaded.");
 
         Assert.AreEqual(
@@ -479,9 +479,9 @@ public class OfxDocumentTests
         OfxDocument document = OfxDocument.Load(@"SampleInvestmentStatement_ReferenceExample.ofx");
         List<OfxInvestmentStatement> statements = document.GetInvestmentStatements().ToList();
 
-        Assert.AreEqual(
+        Assert.HasCount(
             1,
-            document.GetInvestmentStatements().Count(),
+            statements,
             "Investment statement should have been loaded.");
 
         OfxInvestmentStatement statement = statements.First();
@@ -490,9 +490,9 @@ public class OfxDocumentTests
             statement.Transactions,
             "A transaction list should be loaded.");
 
-        Assert.AreEqual(
+        Assert.HasCount(
             3,
-            statement.Transactions!.InvestmentTransactions.Count,
+            statement.Transactions!.InvestmentTransactions,
             "Three transactions should have been loaded.");
     }
 
@@ -502,9 +502,9 @@ public class OfxDocumentTests
         OfxDocument document = OfxDocument.Load(@"SampleInvestmentStatement_FullSecurities.ofx");
         List<OfxSecurity> securities = [.. document.GetSecurities()];
 
-        Assert.AreEqual(
+        Assert.HasCount(
             5,
-            securities.Count,
+            securities,
             "Only five reference securities should be present.");
 
         Assert.AreEqual(
@@ -549,9 +549,9 @@ public class OfxDocumentTests
         OfxDocument document = OfxDocument.Load(@"SampleInvestmentStatement_MinimalSecurities.ofx");
         List<OfxSecurity> securities = [.. document.GetSecurities()];
 
-        Assert.AreEqual(
+        Assert.HasCount(
             5,
-            securities.Count,
+            securities,
             "Five securities should have been loaded.");
 
         // Deep validation deferred to GetSecuritiesHandlesFullSecurities.
@@ -563,9 +563,9 @@ public class OfxDocumentTests
         OfxDocument document = OfxDocument.Load(@"SampleInvestmentStatement_ReferenceExample.ofx");
         List<OfxSecurity> securities = [.. document.GetSecurities()];
 
-        Assert.AreEqual(
+        Assert.HasCount(
             2,
-            securities.Count,
+            securities,
             "Two securities should have been loaded.");
     }
 }

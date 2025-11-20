@@ -38,7 +38,7 @@ public class IOfxElementExtensionsTests
     {
         SgmlElement element = new("Base", "<Base>");
 
-        Assert.ThrowsException<OfxException>(
+        Assert.Throws<OfxException>(
             () => element.GetDateTimeOffset("missing child", OfxDocumentSettings.Default),
             $"A {nameof(OfxException)} should be thrown if the child element is not present.");
     }
@@ -55,7 +55,7 @@ public class IOfxElementExtensionsTests
                 value: "This is not parseable",
                 parent: element));
 
-        Assert.ThrowsException<OfxException>(
+        Assert.Throws<OfxException>(
             () => element.GetDateTimeOffset(testProperty, OfxDocumentSettings.Default),
             $"A {nameof(OfxException)} should be thrown if the child element is not parseable.");
     }
@@ -96,7 +96,7 @@ public class IOfxElementExtensionsTests
     {
         SgmlElement element = new("Base", "<Base>");
 
-        Assert.ThrowsException<OfxException>(
+        Assert.Throws<OfxException>(
             () => element.GetElement("missing child", OfxDocumentSettings.Default),
             $"A {nameof(OfxException)} should be thrown if the child element is not present.");
     }
@@ -128,7 +128,7 @@ public class IOfxElementExtensionsTests
     {
         SgmlElement element = new("Base", "<Base>");
 
-        Assert.ThrowsException<OfxException>(
+        Assert.Throws<OfxException>(
             () => element.GetDecimal("missing child", OfxDocumentSettings.Default),
             $"A {nameof(OfxException)} should be thrown if the child element is not present.");
     }
@@ -145,7 +145,7 @@ public class IOfxElementExtensionsTests
                 value: "This is not parseable",
                 parent: element));
 
-        Assert.ThrowsException<OfxException>(
+        Assert.Throws<OfxException>(
             () => element.GetDecimal(testProperty, OfxDocumentSettings.Default),
             $"A {nameof(OfxException)} should be thrown if the child element is not parseable.");
     }
@@ -177,7 +177,7 @@ public class IOfxElementExtensionsTests
     {
         SgmlElement element = new("Base", "<Base>");
 
-        Assert.ThrowsException<OfxException>(
+        Assert.Throws<OfxException>(
             () => element.GetInt("missing child", OfxDocumentSettings.Default),
             $"A {nameof(OfxException)} should be thrown if the child element is not present.");
     }
@@ -194,7 +194,7 @@ public class IOfxElementExtensionsTests
                 value: "This is not parseable",
                 parent: element));
 
-        Assert.ThrowsException<OfxException>(
+        Assert.Throws<OfxException>(
             () => element.GetInt(testProperty, OfxDocumentSettings.Default),
             $"A {nameof(OfxException)} should be thrown if the child element is not parseable.");
     }
@@ -226,7 +226,7 @@ public class IOfxElementExtensionsTests
     {
         SgmlElement element = new("Base", "<Base>");
 
-        Assert.ThrowsException<OfxException>(
+        Assert.Throws<OfxException>(
             () => element.GetString("missing child", OfxDocumentSettings.Default),
             $"A {nameof(OfxException)} should be thrown if the child element is not present.");
     }
