@@ -26,6 +26,7 @@ public class SgmlElement : IOfxElement
         this.Parent = parent;
     }
 
+    /// <inheritdoc/>
     public string Name { get; }
 
     public string? Value { get; }
@@ -58,6 +59,25 @@ public class SgmlElement : IOfxElement
             foreach (SgmlElement child in this.Children)
             {
                 if (comparer.Equals(name, child.Name))
+                {
+                    yield return child;
+                }
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    public IEnumerable<IOfxElement> Elements(string[] names, StringComparer comparer)
+    {
+        HashSet<string> namesHash = new(names, comparer);
+
+        ArgumentNullException.ThrowIfNull(comparer);
+
+        if (this.Children != null)
+        {
+            foreach (SgmlElement child in this.Children)
+            {
+                if (namesHash.Contains(child.Name))
                 {
                     yield return child;
                 }

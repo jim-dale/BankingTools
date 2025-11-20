@@ -1,0 +1,129 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:UTF-8
+CHARSET:NONE
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+COMMENT: From https://github.com/kedder/ofxstatement/blob/master/doc/ofx_sample_files/ofx_spec201_invest_transactions_example.xml
+<OFX>
+   <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <DTSERVER>19991029101003</DTSERVER>
+      <LANGUAGE>ENG</LANGUAGE>
+      <DTPROFUP>19991029101003</DTPROFUP>
+      <DTACCTUP>19991029101003</DTACCTUP>
+      <FI>
+        <ORG>NCH</ORG>
+        <FID>1001</FID>
+      </FI>
+    </SONRS>
+  </SIGNONMSGSRSV1>
+  <SECLISTMSGSRSV1>
+    <SECLIST>
+      <STOCKINFO>
+        <SECINFO>
+          <SECID>
+            <UNIQUEID>AAPL</UNIQUEID>
+            <UNIQUEIDTYPE>TICKER</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>AAPL</SECNAME>
+          <TICKER>AAPL</TICKER>
+        </SECINFO>
+      </STOCKINFO>
+      <STOCKINFO>
+         <SECINFO>
+          <SECID>
+            <UNIQUEID>MSFT</UNIQUEID>
+            <UNIQUEIDTYPE>TICKER</UNIQUEIDTYPE>
+          </SECID>
+          <SECNAME>MSFT</SECNAME>
+          <TICKER>MSFT</TICKER>
+        </SECINFO>
+      </STOCKINFO>
+    </SECLIST>
+  </SECLISTMSGSRSV1>
+  <INVSTMTMSGSRSV1>
+    <INVSTMTTRNRS>
+      <TRNUID>1002</TRNUID>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <INVSTMTRS>
+        <DTASOF>20210501</DTASOF>
+        <CURDEF>USD</CURDEF>
+        <INVACCTFROM>
+          <BROKERID>Your broker name</BROKERID>
+          <ACCTID>your broker account ID</ACCTID>
+        </INVACCTFROM>
+        <INVTRANLIST>
+          <DTSTART>20210101</DTSTART>
+          <DTEND>20210501</DTEND>
+
+          <BUYSTOCK>
+            <BUYTYPE>BUY</BUYTYPE>
+            <INVBUY>
+              <INVTRAN>
+                <FITID>1234567</FITID>
+                <DTTRADE>20210128</DTTRADE>
+                <MEMO>Purchased 3 Apple (AAPL) at USD 138.28, total: USD 414.84, fees USD 1.24, transaction ID: 1234567</MEMO>
+              </INVTRAN>
+              <SECID>
+                <UNIQUEID>AAPL</UNIQUEID>
+                <UNIQUEIDTYPE>TICKER</UNIQUEIDTYPE>
+              </SECID>
+              <SUBACCTSEC>OTHER</SUBACCTSEC>
+              <SUBACCTFUND>OTHER</SUBACCTFUND>
+              <FEES>1.24000</FEES>
+              <UNITPRICE>138.28000</UNITPRICE>
+              <UNITS>3.00000</UNITS>
+              <TOTAL>-416.08000</TOTAL>
+            </INVBUY>
+          </BUYSTOCK>
+          <SELLSTOCK>
+            <SELLTYPE>SELL</SELLTYPE>
+            <INVSELL>
+              <INVTRAN>
+                <FITID>234567</FITID>
+                <DTTRADE>20210226</DTTRADE>
+                <MEMO>Sold 5 Microsoft (MSFT) at USD 225.63, total: USD 1128.15, fees USD 0.28, transaction ID: 234567</MEMO>
+              </INVTRAN>
+              <SECID>
+                <UNIQUEID>MSFT</UNIQUEID>
+                <UNIQUEIDTYPE>TICKER</UNIQUEIDTYPE>
+              </SECID>
+              <SUBACCTSEC>OTHER</SUBACCTSEC>
+              <SUBACCTFUND>OTHER</SUBACCTFUND>
+              <FEES>0.28000</FEES>
+              <UNITPRICE>225.63000</UNITPRICE>
+              <UNITS>-5.00000</UNITS>
+              <TOTAL>1127.87000</TOTAL>
+            </INVSELL>
+          </SELLSTOCK>
+          <INCOME>
+            <INCOMETYPE>DIV</INCOMETYPE>
+            <INVTRAN>
+              <FITID>54321</FITID>
+              <DTTRADE>20210319</DTTRADE>
+              <MEMO>Dividends from Microsoft, USD 0.79</MEMO>
+            </INVTRAN>
+            <SECID>
+              <UNIQUEID>MSFT</UNIQUEID>
+              <UNIQUEIDTYPE>TICKER</UNIQUEIDTYPE>
+            </SECID>
+            <SUBACCTSEC>OTHER</SUBACCTSEC>
+            <SUBACCTFUND>OTHER</SUBACCTFUND>
+            <TOTAL>0.79000</TOTAL>
+          </INCOME>
+        </INVTRANLIST>
+      </INVSTMTRS>
+    </INVSTMTTRNRS>
+  </INVSTMTMSGSRSV1>
+</OFX>
