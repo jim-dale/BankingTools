@@ -48,5 +48,5 @@ public class OfxMarginInterest : OfxInvestmentTransaction
     public string? SubAccountFund { get; init; }
 
     /// <summary>Gets the total margin interest amount (<c>TOTAL</c>).</summary>
-    required public decimal Total { get; init; }
+    public required decimal Total { get; init; }
 }

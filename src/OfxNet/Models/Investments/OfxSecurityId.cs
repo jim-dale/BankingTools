@@ -34,13 +34,13 @@ public class OfxSecurityId
         this.IdType = element.GetString(OfxInvestmentElementConstants.IdTypeElement, settings);
     }
 
-    /// <summary>The Unique ID for the Security.</summary>
-    required public string Id { get; init; }
+    /// <summary>Gets the Unique ID for the Security.</summary>
+    public required string Id { get; init; }
 
-    /// <summary>Standard used for Unique ID e.g. CUSIP.</summary>
+    /// <summary>Gets the standard used for Unique ID e.g. CUSIP.</summary>
     /// <remarks>
     /// Indicates the standard used for the identifier, such as "CUSIP",
     /// "ISIN", or another recognized scheme.
     /// </remarks>
-    required public string IdType { get; init; }
+    public required string IdType { get; init; }
 }

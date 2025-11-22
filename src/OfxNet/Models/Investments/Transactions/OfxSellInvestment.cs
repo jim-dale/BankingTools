@@ -72,7 +72,7 @@ public class OfxSellInvestment : OfxInvestmentTransaction
     public OfxCurrency? OriginalCurrency { get; init; }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the sub-account for the fund (<c>SUBACCTFUND</c>).</summary>
     public string? SubAccountFund { get; init; }
@@ -87,13 +87,13 @@ public class OfxSellInvestment : OfxInvestmentTransaction
     public string? TaxExempt { get; init; }
 
     /// <summary>Gets the total transaction amount (<c>TOTAL</c>).</summary>
-    required public decimal Total { get; init; }
+    public required decimal Total { get; init; }
 
     /// <summary>Gets the number of units sold (<c>UNITS</c>).</summary>
-    required public decimal Units { get; init; }
+    public required decimal Units { get; init; }
 
     /// <summary>Gets the unit price (<c>UNITPRICE</c>).</summary>
-    required public decimal UnitPrice { get; init; }
+    public required decimal UnitPrice { get; init; }
 
     /// <summary>Gets the withholding amount (<c>WITHHOLDING</c>).</summary>
     public decimal? Withholding { get; init; }

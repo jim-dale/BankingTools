@@ -34,5 +34,5 @@ public class OfxInvestmentAccount : OfxAccount
     }
 
     /// <summary>Gets the broker identifier (<c>BROKERID</c>).</summary>
-    required public string BrokerId { get; init; }
+    public required string BrokerId { get; init; }
 }

@@ -47,13 +47,13 @@ public class OfxIncome : OfxInvestmentTransaction
     public OfxCurrency? Currency { get; init; }
 
     /// <summary>Gets the income type (<c>INCOMETYPE</c>).</summary>
-    required public string IncomeType { get; init; }
+    public required string IncomeType { get; init; }
 
     /// <summary>Gets the original currency information (<c>ORIGCURRENCY</c>).</summary>
     public OfxCurrency? OriginalCurrency { get; init; }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the sub-account for the fund (<c>SUBACCTFUND</c>).</summary>
     public string? SubAccountFund { get; init; }
@@ -65,7 +65,7 @@ public class OfxIncome : OfxInvestmentTransaction
     public string? TaxExempt { get; init; }
 
     /// <summary>Gets the total income amount (<c>TOTAL</c>).</summary>
-    required public decimal Total { get; init; }
+    public required decimal Total { get; init; }
 
     /// <summary>Gets the withholding amount (<c>WITHHOLDING</c>).</summary>
     public decimal? Withholding { get; init; }

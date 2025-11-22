@@ -1,4 +1,4 @@
-namespace OfxNet.Investments.Transactions;
+﻿namespace OfxNet.Investments.Transactions;
 
 /// <summary>
 /// Represents a sell transaction for an "other" security type (<c>SELLOTHER</c> aggregate).

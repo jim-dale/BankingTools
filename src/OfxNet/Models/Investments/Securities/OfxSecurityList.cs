@@ -64,7 +64,7 @@ public class OfxSecurityList
         }
     }
 
-    /// <summary>Gets or sets the collection of security definitions.</summary>
+    /// <summary>Gets the collection of security definitions.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "Simple implementation.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Simple implementation.")]
     public List<OfxSecurity> Securities { get; init; } = [];

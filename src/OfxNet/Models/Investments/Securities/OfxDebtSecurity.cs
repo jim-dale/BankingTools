@@ -74,7 +74,7 @@ public class OfxDebtSecurity : OfxSecurity
 
     /// <summary>Gets or sets the debt type (<c>DEBTTYPE</c>).</summary>
     /// <remarks>Examples include "BOND" or "NOTE".</remarks>
-    required public string? DebtType { get; set; }
+    public required string? DebtType { get; set; }
 
     /// <summary>Gets or sets the financial institution's asset class (<c>FIASSETCLASS</c>).</summary>
     public string? InstitutionAssetClass { get; set; }
@@ -83,7 +83,7 @@ public class OfxDebtSecurity : OfxSecurity
     public DateTimeOffset? MaturityDate { get; set; }
 
     /// <summary>Gets or sets the par value of the debt security (<c>PARVALUE</c>).</summary>
-    required public decimal? ParValue { get; set; }
+    public required decimal? ParValue { get; set; }
 
     /// <summary>Gets or sets the yield to call (<c>YIELDTOCALL</c>).</summary>
     public decimal? YieldToCall { get; set; }

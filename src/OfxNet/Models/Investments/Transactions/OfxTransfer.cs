@@ -50,25 +50,25 @@ public class OfxTransfer : OfxInvestmentTransaction
     public OfxInvestmentAccount? InvestmentAccountFrom { get; init; }
 
     /// <summary>Gets the position type (<c>POSTYPE</c>).</summary>
-    required public string PositionType { get; init; }
+    public required string PositionType { get; init; }
 
     /// <summary>Gets the purchase date (<c>DTPURCHASE</c>).</summary>
     public DateTimeOffset? PurchaseDate { get; init; }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the sub-account for the security (<c>SUBACCTSEC</c>).</summary>
     public string? SubAccountSecurity { get; init; }
 
     /// <summary>Gets the transfer action (<c>TFERACTION</c>).</summary>
-    required public string TransferAction { get; init; }
+    public required string TransferAction { get; init; }
 
     /// <summary>Gets the unit price (<c>UNITPRICE</c>).</summary>
     public decimal? UnitPrice { get; init; }
 
     /// <summary>Gets the number of units transferred (<c>UNITS</c>).</summary>
-    required public decimal Units { get; init; }
+    public required decimal Units { get; init; }
 
     /// <summary>
     /// Helper method to move logic out of constructor.

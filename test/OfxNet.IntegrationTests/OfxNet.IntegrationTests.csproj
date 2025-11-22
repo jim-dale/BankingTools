@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <NoWarn>CA1515,IDE0007,IDE0008,IDE0305</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

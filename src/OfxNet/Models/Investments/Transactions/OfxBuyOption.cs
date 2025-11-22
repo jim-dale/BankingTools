@@ -31,8 +31,8 @@ public class OfxBuyOption : OfxBuyInvestment
     }
 
     /// <summary>Gets the option buy type (<c>OPTBUYTYPE</c>).</summary>
-    required public string OptionBuyType { get; init; }
+    public required string OptionBuyType { get; init; }
 
     /// <summary>Gets the shares per contract (<c>SHPERCTRCT</c>).</summary>
-    required public int SharesPerContract { get; init; }
+    public required int SharesPerContract { get; init; }
 }

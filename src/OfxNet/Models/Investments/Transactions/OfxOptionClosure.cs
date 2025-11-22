@@ -42,21 +42,21 @@ public class OfxOptionClosure : OfxInvestmentTransaction
 
     /// <summary>Gets the option action (<c>OPTACTION</c>).</summary>
     /// <remarks>Indicates the type of option action (e.g., "EXERCISE", "ASSIGN", "EXPIRE").</remarks>
-    required public string OptAction { get; init; }
+    public required string OptAction { get; init; }
 
     /// <summary>Gets the related transaction identifier (<c>RELFITID</c>).</summary>
     /// <remarks>Provides a reference to a related transaction, if applicable.</remarks>
     public string? RelatedInstitutionId { get; init; }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the shares per contract (<c>SHPERCTRCT</c>).</summary>
-    required public int SharesPerContract { get; init; }
+    public required int SharesPerContract { get; init; }
 
     /// <summary>Gets the sub-account for the security (<c>SUBACCTSEC</c>).</summary>
     public string? SubAccountSecurity { get; init; }
 
     /// <summary>Gets the number of option units (<c>UNITS</c>).</summary>
-    required public decimal Units { get; init; }
+    public required decimal Units { get; init; }
 }

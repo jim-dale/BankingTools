@@ -36,10 +36,10 @@ public class OfxAssetClassPortion
     }
 
     /// <summary>Gets or sets the asset class (<c>ASSETCLASS</c>).</summary>
-    required public string AssetClass { get; set; }
+    public required string AssetClass { get; set; }
 
     /// <summary>Gets or sets the percentage allocation (<c>PERCENT</c>).</summary>
-    required public decimal Percent { get; set; }
+    public required decimal Percent { get; set; }
 
     /// <summary>
     /// Helper method to get asset class using the correct child element name based on the parent element being processed.

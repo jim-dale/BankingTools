@@ -34,7 +34,7 @@ public class OfxSellOption : OfxSellInvestment
     }
 
     /// <summary>Gets the option sell type (<c>OPTSELLTYPE</c>).</summary>
-    required public string OptionSellType { get; init; }
+    public required string OptionSellType { get; init; }
 
     /// <summary>Gets the related transaction identifier (<c>RELFITID</c>).</summary>
     public string? RelatedInstitutionId { get; init; }
@@ -43,8 +43,8 @@ public class OfxSellOption : OfxSellInvestment
     public string? RelationType { get; init; }
 
     /// <summary>Gets the secured flag (<c>SECURED</c>).</summary>
-    required public string Secured { get; init; }
+    public required string Secured { get; init; }
 
     /// <summary>Gets the shares per contract (<c>SHPERCTRCT</c>).</summary>
-    required public int SharesPerContract { get; init; }
+    public required int SharesPerContract { get; init; }
 }

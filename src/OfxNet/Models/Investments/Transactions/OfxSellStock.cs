@@ -30,5 +30,5 @@ public class OfxSellStock : OfxSellInvestment
     }
 
     /// <summary>Gets the sell type (<c>SELLTYPE</c>).</summary>
-    required public string SellType { get; init; }
+    public required string SellType { get; init; }
 }

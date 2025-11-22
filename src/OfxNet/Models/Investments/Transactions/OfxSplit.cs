@@ -48,25 +48,25 @@ public class OfxSplit : OfxInvestmentTransaction
     public OfxCurrency? Currency { get; init; }
 
     /// <summary>Gets the denominator of the split ratio (<c>DENOMINATOR</c>).</summary>
-    required public int Denominator { get; init; }
+    public required int Denominator { get; init; }
 
     /// <summary>Gets the fractional cash amount (<c>FRACCASH</c>).</summary>
     public decimal? FractionalCash { get; init; }
 
     /// <summary>Gets the new number of units (<c>NEWUNITS</c>).</summary>
-    required public decimal NewUnits { get; init; }
+    public required decimal NewUnits { get; init; }
 
     /// <summary>Gets the numerator of the split ratio (<c>NUMERATOR</c>).</summary>
-    required public int Numerator { get; init; }
+    public required int Numerator { get; init; }
 
     /// <summary>Gets the old number of units (<c>OLDUNITS</c>).</summary>
-    required public decimal OldUnits { get; init; }
+    public required decimal OldUnits { get; init; }
 
     /// <summary>Gets the original currency information (<c>ORIGCURRENCY</c>).</summary>
     public OfxCurrency? OriginalCurrency { get; init; }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the sub-account for the fund (<c>SUBACCTFUND</c>).</summary>
     public string? SubAccountFund { get; init; }

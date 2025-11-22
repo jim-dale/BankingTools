@@ -30,5 +30,5 @@ public class OfxBuyStock : OfxBuyInvestment
     }
 
     /// <summary>Gets the buy type (<c>BUYTYPE</c>).</summary>
-    required public string BuyType { get; init; }
+    public required string BuyType { get; init; }
 }

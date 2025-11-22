@@ -57,7 +57,7 @@ public class OfxInvestmentPosition
     public DateTimeOffset? PriceAsOfDate { get; init; }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the unit price (<c>UNITPRICE</c>).</summary>
     public decimal? UnitPrice { get; init; }

@@ -35,14 +35,14 @@ public class OfxJournalSecurity : OfxJournalTransaction
     }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the source sub-account (<c>SUBACCTFROM</c>).</summary>
-    required public string SubAccountFrom { get; init; }
+    public required string SubAccountFrom { get; init; }
 
     /// <summary>Gets the destination sub-account (<c>SUBACCTTO</c>).</summary>
-    required public string SubAccountTo { get; init; }
+    public required string SubAccountTo { get; init; }
 
     /// <summary>Gets the number of units transferred (<c>UNITS</c>).</summary>
-    required public decimal Units { get; init; }
+    public required decimal Units { get; init; }
 }

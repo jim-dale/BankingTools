@@ -1,4 +1,4 @@
-namespace OfxNet.IntegrationTests;
+﻿namespace OfxNet.IntegrationTests;
 
 using System;
 using System.Diagnostics.CodeAnalysis;

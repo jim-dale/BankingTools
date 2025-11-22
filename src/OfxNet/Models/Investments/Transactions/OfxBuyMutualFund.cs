@@ -31,7 +31,7 @@ public class OfxBuyMutualFund : OfxBuyInvestment
     }
 
     /// <summary>Gets the buy type (<c>BUYTYPE</c>).</summary>
-    required public string BuyType { get; init; } = string.Empty;
+    public required string BuyType { get; init; } = string.Empty;
 
     /// <summary>Gets the related transaction identifier (<c>RELFITID</c>).</summary>
     public string? RelatedInstitutionId { get; init; }

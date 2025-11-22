@@ -1,4 +1,4 @@
-namespace OfxNet.Investments;
+﻿namespace OfxNet.Investments;
 
 internal static class OfxInvestmentHelpers
 {
