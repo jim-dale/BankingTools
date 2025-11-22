@@ -9,33 +9,64 @@ using System.Xml.Linq;
 using OfxNet.Investments;
 using OfxNet.Investments.Securities;
 
+/// <summary>
+/// Represents an OFX document and provides methods to parse and extract financial data.
+/// </summary>
 public class OfxDocument
 {
     private readonly object document;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="OfxDocument"/> class with the specified document.
+    /// </summary>
+    /// <param name="document">The underlying document object.</param>
     public OfxDocument(object document)
         : this(document, OfxDocumentSettings.Default)
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="OfxDocument"/> class with the specified document and settings.
+    /// </summary>
+    /// <param name="document">The underlying document object.</param>
+    /// <param name="settings">The document settings.</param>
     public OfxDocument(object document, OfxDocumentSettings settings)
     {
         this.document = document;
         this.Settings = settings;
     }
 
+    /// <summary>
+    /// Gets the settings used for parsing the OFX document.
+    /// </summary>
     public OfxDocumentSettings Settings { get; }
 
+    /// <summary>
+    /// Loads an OFX document from the specified file path.
+    /// </summary>
+    /// <param name="path">The file path to load from.</param>
+    /// <returns>An <see cref="OfxDocument"/> instance.</returns>
     public static OfxDocument Load(string path)
     {
         return Load(path, OfxDocumentSettings.Default);
     }
 
+    /// <summary>
+    /// Loads an OFX document from the specified stream.
+    /// </summary>
+    /// <param name="stream">The stream to load from.</param>
+    /// <returns>An <see cref="OfxDocument"/> instance.</returns>
     public static OfxDocument Load(Stream stream)
     {
         return Load(stream, OfxDocumentSettings.Default);
     }
 
+    /// <summary>
+    /// Loads an OFX document from the specified file path and settings.
+    /// </summary>
+    /// <param name="path">The file path to load from.</param>
+    /// <param name="settings">The document settings.</param>
+    /// <returns>An <see cref="OfxDocument"/> instance.</returns>
     public static OfxDocument Load(string path, OfxDocumentSettings settings)
     {
         using FileStream stream = File.OpenRead(path);
@@ -43,6 +74,12 @@ public class OfxDocument
         return Load(stream, settings);
     }
 
+    /// <summary>
+    /// Loads an OFX document from the specified stream and settings.
+    /// </summary>
+    /// <param name="stream">The stream to load from.</param>
+    /// <param name="settings">The document settings.</param>
+    /// <returns>An <see cref="OfxDocument"/> instance.</returns>
     public static OfxDocument Load(Stream stream, OfxDocumentSettings settings)
     {
         OfxDocument result;
@@ -59,6 +96,10 @@ public class OfxDocument
         return result;
     }
 
+    /// <summary>
+    /// Gets the root OFX element of the document.
+    /// </summary>
+    /// <returns>The root <see cref="IOfxElement"/>, or null if not found.</returns>
     [SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "Breaking change.")]
     public IOfxElement? GetRoot()
     {
@@ -75,6 +116,10 @@ public class OfxDocument
         return result;
     }
 
+    /// <summary>
+    /// Gets all statements (bank and credit card) from the document.
+    /// </summary>
+    /// <returns>An enumeration of <see cref="OfxStatement"/> objects.</returns>
     public IEnumerable<OfxStatement> GetStatements()
     {
         IOfxElement? element = this.GetRoot();
@@ -82,6 +127,11 @@ public class OfxDocument
         return this.GetStatements(element);
     }
 
+    /// <summary>
+    /// Gets all statements (bank and credit card) from the specified element.
+    /// </summary>
+    /// <param name="element">The OFX element to search.</param>
+    /// <returns>An enumeration of <see cref="OfxStatement"/> objects.</returns>
     public IEnumerable<OfxStatement> GetStatements(IOfxElement? element)
     {
         IEnumerable<OfxStatement> result = (element is null)
@@ -91,6 +141,11 @@ public class OfxDocument
         return result;
     }
 
+    /// <summary>
+    /// Gets all bank statements from the specified element.
+    /// </summary>
+    /// <param name="element">The OFX element to search.</param>
+    /// <returns>An enumeration of <see cref="OfxStatement"/> objects.</returns>
     public IEnumerable<OfxStatement> GetBankStatements(IOfxElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -108,6 +163,11 @@ public class OfxDocument
         }
     }
 
+    /// <summary>
+    /// Gets all credit card statements from the specified element.
+    /// </summary>
+    /// <param name="element">The OFX element to search.</param>
+    /// <returns>An enumeration of <see cref="OfxStatement"/> objects.</returns>
     public IEnumerable<OfxStatement> GetCreditCardStatements(IOfxElement element)
     {
         IOfxElement? set = this.GetElement(element, OfxConstants.CreditCardMessageSetResponseV1, OfxConstants.CreditCardMessageSetResponseV2);
@@ -123,6 +183,11 @@ public class OfxDocument
         }
     }
 
+    /// <summary>
+    /// Gets all bank statements from the specified collection of OFX elements.
+    /// </summary>
+    /// <param name="elements">The collection of OFX elements to process.</param>
+    /// <returns>An enumeration of <see cref="OfxBankStatement"/> objects.</returns>
     public IEnumerable<OfxBankStatement> GetBankStatements(IEnumerable<IOfxElement> elements)
     {
         ArgumentNullException.ThrowIfNull(elements);
@@ -137,6 +202,11 @@ public class OfxDocument
         }
     }
 
+    /// <summary>
+    /// Gets all credit card statements from the specified collection of OFX elements.
+    /// </summary>
+    /// <param name="elements">The collection of OFX elements to process.</param>
+    /// <returns>An enumeration of <see cref="OfxCreditCardStatement"/> objects.</returns>
     public IEnumerable<OfxCreditCardStatement> GetCreditCardStatements(IEnumerable<IOfxElement> elements)
     {
         ArgumentNullException.ThrowIfNull(elements);
@@ -151,6 +221,13 @@ public class OfxDocument
         }
     }
 
+    /// <summary>
+    /// Gets the sign-on information from the specified OFX element.
+    /// </summary>
+    /// <param name="element">The OFX element containing sign-on information.</param>
+    /// <returns>
+    /// An <see cref="OfxSignOn"/> object containing sign-on details, or <c>null</c> if the element is <c>null</c>.
+    /// </returns>
     [return: NotNullIfNotNull(nameof(element))]
     public OfxSignOn? GetSignon(IOfxElement element)
     {
@@ -165,6 +242,13 @@ public class OfxDocument
             };
     }
 
+    /// <summary>
+    /// Gets a bank statement from the specified OFX element.
+    /// </summary>
+    /// <param name="element">The OFX element containing bank statement information.</param>
+    /// <returns>
+    /// An <see cref="OfxBankStatement"/> object containing the bank statement details, or <c>null</c> if the element is <c>null</c>.
+    /// </returns>
     [return: NotNullIfNotNull(nameof(element))]
     public OfxBankStatement? GetBankStatement(IOfxElement? element)
     {
@@ -180,6 +264,13 @@ public class OfxDocument
             };
     }
 
+    /// <summary>
+    /// Gets a credit card statement from the specified OFX element.
+    /// </summary>
+    /// <param name="element">The OFX element containing credit card statement information.</param>
+    /// <returns>
+    /// An <see cref="OfxCreditCardStatement"/> object containing the credit card statement details.
+    /// </returns>
     public OfxCreditCardStatement GetCreditCardStatement(IOfxElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
@@ -194,6 +285,13 @@ public class OfxDocument
         };
     }
 
+    /// <summary>
+    /// Gets the transaction list from the specified OFX element.
+    /// </summary>
+    /// <param name="element">The OFX element containing the transaction list.</param>
+    /// <returns>
+    /// An <see cref="OfxTransactionList"/> object containing the transactions, or <c>null</c> if the element is <c>null</c>.
+    /// </returns>
     public OfxTransactionList? GetStatementTransactionList(IOfxElement? element)
     {
         OfxTransactionList? result = null;
@@ -214,6 +312,13 @@ public class OfxDocument
         return result;
     }
 
+    /// <summary>
+    /// Gets a statement transaction from the specified OFX element.
+    /// </summary>
+    /// <param name="element">The OFX element containing statement transaction information.</param>
+    /// <returns>
+    /// An <see cref="OfxStatementTransaction"/> object containing the statement transaction details, or <c>null</c> if the element is <c>null</c>.
+    /// </returns>
     [return: NotNullIfNotNull(nameof(element))]
     public OfxStatementTransaction? GetStatementTransaction(IOfxElement? element)
     {
@@ -246,6 +351,13 @@ public class OfxDocument
             };
     }
 
+    /// <summary>
+    /// Gets the currency information from the specified OFX element.
+    /// </summary>
+    /// <param name="element">The OFX element containing currency information.</param>
+    /// <returns>
+    /// An <see cref="OfxCurrency"/> object containing the currency details, or <c>null</c> if the element is <c>null</c>.
+    /// </returns>
     [return: NotNullIfNotNull(nameof(element))]
     public OfxCurrency? GetCurrency(IOfxElement? element)
     {
@@ -420,9 +532,9 @@ public class OfxDocument
 
         if (list is not null)
         {
-            OfxSecurityList securityList = new OfxSecurityList(list, this.Settings);
+            OfxSecurityList securityList = new(list, this.Settings);
 
-            foreach (var security in securityList.Securities)
+            foreach (OfxSecurity security in securityList.Securities)
             {
                 yield return security;
             }
@@ -468,7 +580,7 @@ public class OfxDocument
         (bool nullOrWhiteSpace, bool notDecimal, decimal value) = OfxParser.ParseDecimal(s);
         if (nullOrWhiteSpace || notDecimal)
         {
-            return default(decimal?);
+            return default;
         }
 
         return value;

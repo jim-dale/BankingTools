@@ -39,7 +39,7 @@ public class OfxInvestmentTransaction
     }
 
     /// <summary>Gets the unique transaction identifier (<c>FITID</c>).</summary>
-    required public string InstitutionId { get; init; }
+    public required string InstitutionId { get; init; }
 
     /// <summary>Gets the optional memo (<c>MEMO</c>).</summary>
     public string? Memo { get; init; }
@@ -51,5 +51,5 @@ public class OfxInvestmentTransaction
     public string? ServerId { get; init; }
 
     /// <summary>Gets the trade date (<c>DTTRADE</c>).</summary>
-    required public DateTimeOffset TradeDate { get; init; }
+    public required DateTimeOffset TradeDate { get; init; }
 }

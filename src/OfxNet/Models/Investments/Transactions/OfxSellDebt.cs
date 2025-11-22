@@ -34,5 +34,5 @@ public class OfxSellDebt : OfxSellInvestment
     public decimal? AccruedInterest { get; init; }
 
     /// <summary>Gets the reason for the debt sale (<c>SELLREASON</c>).</summary>
-    required public string SellReason { get; init; } = string.Empty;
+    public required string SellReason { get; init; } = string.Empty;
 }

@@ -1,4 +1,4 @@
-namespace OfxNet.Investments;
+﻿namespace OfxNet.Investments;
 
 /// <summary>
 /// Constants for parsing OFX investment documents.  Each entry corresponds to one of the

@@ -1,4 +1,4 @@
-namespace OfxNet.UnitTests;
+﻿namespace OfxNet.UnitTests;
 
 using System;
 using System.Collections.Generic;

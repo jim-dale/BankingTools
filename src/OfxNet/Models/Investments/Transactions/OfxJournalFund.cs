@@ -34,11 +34,11 @@ public class OfxJournalFund : OfxJournalTransaction
     }
 
     /// <summary>Gets the source sub-account (<c>SUBACCTFROM</c>).</summary>
-    required public string SubAccountFrom { get; init; }
+    public required string SubAccountFrom { get; init; }
 
     /// <summary>Gets the destination sub-account (<c>SUBACCTTO</c>).</summary>
-    required public string SubAccountTo { get; init; }
+    public required string SubAccountTo { get; init; }
 
     /// <summary>Gets the total amount transferred (<c>TOTAL</c>).</summary>
-    required public decimal Total { get; init; }
+    public required decimal Total { get; init; }
 }

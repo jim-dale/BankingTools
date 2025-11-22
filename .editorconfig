@@ -3,47 +3,49 @@
 # top-most EditorConfig file
 root = true
 
-# Don't use tabs for indentation.
-[*]
-indent_style = space
-
 # (Please don't specify an indent_size here; that has too many unintended consequences.)
 
 [*.yml]
-indent_size = 2
 indent_style = space
+indent_size = 2
 
 # Code files
 [*.{cs,csx,vb,vbx,h,cpp,idl}]
+indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
-# CS1591: Missing XML comment for publicly visible type or member
-dotnet_diagnostic.CS1591.severity = none
+file_header_template = unset
 
 # Xml project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj,msbuildproj}]
+indent_style = space
 indent_size = 2
 
 # Xml config files
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct,runsettings}]
+indent_style = space
 indent_size = 2
 
 # JSON files
 [*.json]
-indent_size = 2
 indent_style = space
+indent_size = 2
 
 # Dotnet code style settings:
 [*.{cs,vb}]
-# Sort using and Import directives with System.* appearing first
+# Organize usings
+dotnet_separate_import_directive_groups = false
 dotnet_sort_system_directives_first = true
-dotnet_style_qualification_for_field = true:suggestion
-dotnet_style_qualification_for_property = true:suggestion
-dotnet_style_qualification_for_method = true:suggestion
-dotnet_style_qualification_for_event = true:suggestion
+file_header_template = unset
 
-# Use language keywords instead of framework type names for type references
+# this. and Me. preferences
+dotnet_style_qualification_for_event = true:suggestion
+dotnet_style_qualification_for_field = true:suggestion
+dotnet_style_qualification_for_method = true:suggestion
+dotnet_style_qualification_for_property = true:suggestion
+
+# Language keywords vs BCL types preferences
 dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
 dotnet_style_predefined_type_for_member_access = true:suggestion
 
@@ -121,8 +123,6 @@ dotnet_naming_symbols.all_members.applicable_kinds = *
 
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
-tab_width = 4
-end_of_line = crlf
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
 dotnet_style_prefer_auto_properties = true:silent
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
@@ -178,11 +178,6 @@ csharp_new_line_before_members_in_anonymous_types = true
 # Blocks are allowed
 csharp_prefer_braces = true:silent
 
-# SA1130: Use lambda syntax
-dotnet_diagnostic.SA1130.severity = silent
-
-# IDE1006: Naming Styles - StyleCop handles these for us
-dotnet_diagnostic.IDE1006.severity = none
 csharp_using_directive_placement = inside_namespace:warning
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_namespace_declarations = file_scoped:warning
@@ -190,24 +185,198 @@ csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_top_level_statements = false:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
-csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_prefer_primary_constructors = false:suggestion
 csharp_style_prefer_null_check_over_type_check = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
 csharp_style_prefer_index_operator = true:suggestion
 
-# SA1000: Keywords should be spaced correctly
-dotnet_diagnostic.SA1000.severity = none
-# SA1010: Opening square brackets should be spaced correctly
-dotnet_diagnostic.SA1010.severity = none
-# SA1600: Elements must be documented
-dotnet_diagnostic.SA1600.severity = none
-# SA1602: Enumeration items should be documented
-dotnet_diagnostic.SA1602.severity = none
-# SA1623: Property summary documentation must match accessors
-dotnet_diagnostic.SA1623.severity = none
-# SA1633: File should have header
-dotnet_diagnostic.SA1633.severity = none
+# Code style rules
+dotnet_diagnostic.CS1591.severity = silent  # Missing XML comment for publicly visible type or member
 
-[*.sln]
-indent_style = tab
+dotnet_diagnostic.IDE0073.severity = silent # IDE0073: Require file header
+dotnet_diagnostic.IDE0130.severity = silent # IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0301.severity = silent # IDE0301: Collection expression can be simplified
+dotnet_diagnostic.IDE0305.severity = silent # IDE0305: Collection initialization can be simplified
+dotnet_diagnostic.IDE1006.severity = silent # IDE1006: Naming Styles
+
+# Stylecop
+dotnet_diagnostic.SA1000.severity = error # SA1000: Keywords should be spaced correctly
+dotnet_diagnostic.SA1001.severity = error
+dotnet_diagnostic.SA1002.severity = error
+dotnet_diagnostic.SA1003.severity = error
+dotnet_diagnostic.SA1004.severity = error
+dotnet_diagnostic.SA1005.severity = error
+dotnet_diagnostic.SA1006.severity = error
+dotnet_diagnostic.SA1007.severity = error
+dotnet_diagnostic.SA1008.severity = error
+dotnet_diagnostic.SA1009.severity = error
+dotnet_diagnostic.SA1010.severity = error # SA1010: Opening square brackets should be spaced correctly
+dotnet_diagnostic.SA1011.severity = error
+dotnet_diagnostic.SA1012.severity = error
+dotnet_diagnostic.SA1013.severity = error
+dotnet_diagnostic.SA1014.severity = error
+dotnet_diagnostic.SA1015.severity = error
+dotnet_diagnostic.SA1016.severity = error
+dotnet_diagnostic.SA1017.severity = error
+dotnet_diagnostic.SA1018.severity = error
+dotnet_diagnostic.SA1019.severity = error
+dotnet_diagnostic.SA1020.severity = error
+dotnet_diagnostic.SA1021.severity = error
+dotnet_diagnostic.SA1022.severity = error
+dotnet_diagnostic.SA1023.severity = error
+dotnet_diagnostic.SA1024.severity = error
+dotnet_diagnostic.SA1025.severity = error
+dotnet_diagnostic.SA1026.severity = error
+dotnet_diagnostic.SA1027.severity = error
+dotnet_diagnostic.SA1028.severity = error
+dotnet_diagnostic.SA1100.severity = error
+dotnet_diagnostic.SA1101.severity = error
+dotnet_diagnostic.SA1102.severity = error
+dotnet_diagnostic.SA1103.severity = error
+dotnet_diagnostic.SA1104.severity = error
+dotnet_diagnostic.SA1105.severity = error
+dotnet_diagnostic.SA1106.severity = error
+dotnet_diagnostic.SA1107.severity = error
+dotnet_diagnostic.SA1108.severity = error
+dotnet_diagnostic.SA1110.severity = error
+dotnet_diagnostic.SA1111.severity = error
+dotnet_diagnostic.SA1112.severity = error
+dotnet_diagnostic.SA1113.severity = error
+dotnet_diagnostic.SA1114.severity = error
+dotnet_diagnostic.SA1115.severity = error
+dotnet_diagnostic.SA1116.severity = error
+dotnet_diagnostic.SA1117.severity = error
+dotnet_diagnostic.SA1118.severity = error
+dotnet_diagnostic.SA1119.severity = error
+dotnet_diagnostic.SA1120.severity = error
+dotnet_diagnostic.SA1121.severity = error
+dotnet_diagnostic.SA1122.severity = error
+dotnet_diagnostic.SA1123.severity = error
+dotnet_diagnostic.SA1124.severity = error
+dotnet_diagnostic.SA1125.severity = error
+dotnet_diagnostic.SA1127.severity = error
+dotnet_diagnostic.SA1128.severity = error
+dotnet_diagnostic.SA1129.severity = error
+dotnet_diagnostic.SA1130.severity = silent # SA1130: Use lambda syntax
+dotnet_diagnostic.SA1131.severity = error
+dotnet_diagnostic.SA1132.severity = error
+dotnet_diagnostic.SA1133.severity = error
+dotnet_diagnostic.SA1134.severity = error
+dotnet_diagnostic.SA1135.severity = error
+dotnet_diagnostic.SA1136.severity = error
+dotnet_diagnostic.SA1137.severity = error
+dotnet_diagnostic.SA1138.severity = error
+dotnet_diagnostic.SA1139.severity = error
+dotnet_diagnostic.SA1140.severity = error
+dotnet_diagnostic.SA1141.severity = error
+dotnet_diagnostic.SA1142.severity = error
+dotnet_diagnostic.SA1200.severity = error
+dotnet_diagnostic.SA1201.severity = error
+dotnet_diagnostic.SA1202.severity = error
+dotnet_diagnostic.SA1203.severity = error
+dotnet_diagnostic.SA1204.severity = error
+dotnet_diagnostic.SA1205.severity = error
+dotnet_diagnostic.SA1206.severity = error
+dotnet_diagnostic.SA1207.severity = error
+dotnet_diagnostic.SA1208.severity = error
+dotnet_diagnostic.SA1209.severity = error
+dotnet_diagnostic.SA1210.severity = error
+dotnet_diagnostic.SA1211.severity = error
+dotnet_diagnostic.SA1212.severity = error
+dotnet_diagnostic.SA1213.severity = error
+dotnet_diagnostic.SA1214.severity = error
+dotnet_diagnostic.SA1216.severity = error
+dotnet_diagnostic.SA1217.severity = error
+dotnet_diagnostic.SA1300.severity = error
+dotnet_diagnostic.SA1301.severity = error
+dotnet_diagnostic.SA1302.severity = error
+dotnet_diagnostic.SA1303.severity = error
+dotnet_diagnostic.SA1304.severity = error
+dotnet_diagnostic.SA1306.severity = error
+dotnet_diagnostic.SA1307.severity = error
+dotnet_diagnostic.SA1308.severity = error
+dotnet_diagnostic.SA1309.severity = error
+dotnet_diagnostic.SA1310.severity = error
+dotnet_diagnostic.SA1311.severity = error
+dotnet_diagnostic.SA1312.severity = error
+dotnet_diagnostic.SA1313.severity = error
+dotnet_diagnostic.SA1314.severity = error
+dotnet_diagnostic.SA1316.severity = error
+dotnet_diagnostic.SA1400.severity = error
+dotnet_diagnostic.SA1401.severity = error
+dotnet_diagnostic.SA1402.severity = error
+dotnet_diagnostic.SA1403.severity = error
+dotnet_diagnostic.SA1404.severity = error
+dotnet_diagnostic.SA1405.severity = error
+dotnet_diagnostic.SA1406.severity = error
+dotnet_diagnostic.SA1407.severity = error
+dotnet_diagnostic.SA1408.severity = error
+dotnet_diagnostic.SA1409.severity = error
+dotnet_diagnostic.SA1410.severity = error
+dotnet_diagnostic.SA1411.severity = error
+dotnet_diagnostic.SA1412.severity = error
+dotnet_diagnostic.SA1413.severity = error
+dotnet_diagnostic.SA1414.severity = error
+dotnet_diagnostic.SA1500.severity = error
+dotnet_diagnostic.SA1501.severity = error
+dotnet_diagnostic.SA1502.severity = error
+dotnet_diagnostic.SA1503.severity = error
+dotnet_diagnostic.SA1504.severity = error
+dotnet_diagnostic.SA1505.severity = error
+dotnet_diagnostic.SA1506.severity = error
+dotnet_diagnostic.SA1507.severity = error
+dotnet_diagnostic.SA1508.severity = error
+dotnet_diagnostic.SA1509.severity = error
+dotnet_diagnostic.SA1510.severity = error
+dotnet_diagnostic.SA1511.severity = error
+dotnet_diagnostic.SA1512.severity = error
+dotnet_diagnostic.SA1513.severity = error
+dotnet_diagnostic.SA1514.severity = error
+dotnet_diagnostic.SA1515.severity = error
+dotnet_diagnostic.SA1516.severity = error
+dotnet_diagnostic.SA1517.severity = error
+dotnet_diagnostic.SA1518.severity = error
+dotnet_diagnostic.SA1519.severity = error
+dotnet_diagnostic.SA1520.severity = error
+dotnet_diagnostic.SA1600.severity = silent # SA1600: Elements must be documented
+dotnet_diagnostic.SA1601.severity = error
+dotnet_diagnostic.SA1602.severity = silent # SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1604.severity = error
+dotnet_diagnostic.SA1605.severity = error
+dotnet_diagnostic.SA1606.severity = error
+dotnet_diagnostic.SA1607.severity = error
+dotnet_diagnostic.SA1608.severity = error
+dotnet_diagnostic.SA1609.severity = silent # SA1609: Property documentation must have value
+dotnet_diagnostic.SA1610.severity = error
+dotnet_diagnostic.SA1611.severity = error
+dotnet_diagnostic.SA1612.severity = error
+dotnet_diagnostic.SA1613.severity = error
+dotnet_diagnostic.SA1614.severity = error
+dotnet_diagnostic.SA1615.severity = error
+dotnet_diagnostic.SA1616.severity = error
+dotnet_diagnostic.SA1617.severity = error
+dotnet_diagnostic.SA1618.severity = error
+dotnet_diagnostic.SA1619.severity = error
+dotnet_diagnostic.SA1620.severity = error
+dotnet_diagnostic.SA1621.severity = error
+dotnet_diagnostic.SA1622.severity = error
+dotnet_diagnostic.SA1623.severity = error # SA1623: Property summary documentation must match accessors
+dotnet_diagnostic.SA1624.severity = error
+dotnet_diagnostic.SA1625.severity = error
+dotnet_diagnostic.SA1626.severity = error
+dotnet_diagnostic.SA1627.severity = error
+dotnet_diagnostic.SA1629.severity = error
+dotnet_diagnostic.SA1633.severity = silent # SA1633: File should have header
+dotnet_diagnostic.SA1634.severity = error
+dotnet_diagnostic.SA1635.severity = error
+dotnet_diagnostic.SA1636.severity = silent # SA1636: File header copyright text should match
+dotnet_diagnostic.SA1637.severity = error
+dotnet_diagnostic.SA1638.severity = error
+dotnet_diagnostic.SA1640.severity = error
+dotnet_diagnostic.SA1641.severity = error
+dotnet_diagnostic.SA1642.severity = error
+dotnet_diagnostic.SA1643.severity = error
+dotnet_diagnostic.SA1648.severity = error
+dotnet_diagnostic.SA1649.severity = error
+dotnet_diagnostic.SA1651.severity = error

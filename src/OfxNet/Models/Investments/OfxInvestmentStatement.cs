@@ -45,13 +45,13 @@ public class OfxInvestmentStatement
     }
 
     /// <summary>Gets the investment account information (<c>INVACCTFROM</c>).</summary>
-    required public OfxInvestmentAccount Account { get; init; }
+    public required OfxInvestmentAccount Account { get; init; }
 
     /// <summary>Gets the account balances (<c>INVBAL</c>).</summary>
     public OfxInvestmentBalance? Balances { get; init; }
 
     /// <summary>Gets the default currency (<c>CURDEF</c>).</summary>
-    required public string DefaultCurrency { get; init; }
+    public required string DefaultCurrency { get; init; }
 
     /// <summary>Gets the list of investment positions (<c>INVPOSLIST</c>).</summary>
     public OfxInvestmentPositionList? Positions { get; init; }
@@ -60,7 +60,7 @@ public class OfxInvestmentStatement
     public OfxInvestmentTransactionList? Transactions { get; init; }
 
     /// <summary>Gets the list of securities (<c>SECLIST</c>).</summary>
-    required public DateTimeOffset StatementDate { get; init; }
+    public required DateTimeOffset StatementDate { get; init; }
 
     /// <summary>Helper method to load optional balances.</summary>
     private static OfxInvestmentBalance? TryGetBalances(IOfxElement element, OfxDocumentSettings settings)

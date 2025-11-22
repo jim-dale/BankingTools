@@ -42,21 +42,21 @@ public class OfxOptionSecurity : OfxSecurity
     public string? AssetClass { get; set; }
 
     /// <summary>Gets or sets the expiration date (<c>DTEXPIRE</c>).</summary>
-    required public DateTimeOffset? ExpirationDate { get; set; }
+    public required DateTimeOffset? ExpirationDate { get; set; }
 
     /// <summary>Gets or sets the financial institution's asset class (<c>FIASSETCLASS</c>).</summary>
     public string? InstitutionAssetClass { get; set; }
 
     /// <summary>Gets or sets the option type (<c>OPTTYPE</c>).</summary>
     /// <remarks>Examples include "CALL" or "PUT".</remarks>
-    required public string OptionType { get; set; }
+    public required string OptionType { get; set; }
 
     /// <summary>Gets or sets an optional secondary security identifier (<c>SECID</c>).</summary>
     public OfxSecurityId? Security { get; set; }
 
     /// <summary>Gets or sets the number of shares per contract (<c>SHPERCTRCT</c>).</summary>
-    required public int SharesPerContract { get; set; }
+    public required int SharesPerContract { get; set; }
 
     /// <summary>Gets or sets the strike price (<c>STRIKEPRICE</c>).</summary>
-    required public decimal StrikePrice { get; set; }
+    public required decimal StrikePrice { get; set; }
 }

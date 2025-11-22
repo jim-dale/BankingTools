@@ -1,4 +1,4 @@
-namespace OfxNet.Investments.Securities;
+﻿namespace OfxNet.Investments.Securities;
 
 /// <summary>
 /// Represents common security information (<c>SECINFO</c> aggregate).
@@ -39,27 +39,27 @@ public class OfxSecurity : OfxSecurityId
         this.Ticker = element.TryGetString(OfxInvestmentElementConstants.TickerElement, settings);
     }
 
-    /// <summary>The currency used for this entry.</summary>
+    /// <summary>Gets the currency used for this entry.</summary>
     public OfxCurrency? Currency { get; init; }
 
-    /// <summary>The ticker for the security.</summary>
+    /// <summary>Gets the ticker for the security.</summary>
     public string? FinancialInstitutionId { get; init; }
 
-    /// <summary>The memo for the security.</summary>
+    /// <summary>Gets the memo for the security.</summary>
     public string? Memo { get; init; }
 
-    /// <summary>The name of the security.</summary>
-    required public string Name { get; init; }
+    /// <summary>Gets the name of the security.</summary>
+    public required string Name { get; init; }
 
-    /// <summary>The unit price for the security.</summary>
+    /// <summary>Gets the unit price for the security.</summary>
     public decimal? Price { get; init; }
 
-    /// <summary>The date for the price entry.</summary>
+    /// <summary>Gets the date for the price entry.</summary>
     public DateTimeOffset? PriceAsOfDate { get; init; }
 
-    /// <summary>The rating for the security.</summary>
+    /// <summary>Gets the rating for the security.</summary>
     public string? Rating { get; init; }
 
-    /// <summary>The ticker for the security.</summary>
+    /// <summary>Gets the ticker for the security.</summary>
     public string? Ticker { get; init; }
 }

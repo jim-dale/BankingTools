@@ -47,7 +47,7 @@ public class OfxInvestmentExpense : OfxInvestmentTransaction
     public OfxCurrency? OriginalCurrency { get; init; }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the sub-account for the fund (<c>SUBACCTFUND</c>).</summary>
     public string? SubAccountFund { get; init; }
@@ -56,5 +56,5 @@ public class OfxInvestmentExpense : OfxInvestmentTransaction
     public string? SubAccountSecurity { get; init; }
 
     /// <summary>Gets the total expense amount (<c>TOTAL</c>).</summary>
-    required public decimal Total { get; init; }
+    public required decimal Total { get; init; }
 }

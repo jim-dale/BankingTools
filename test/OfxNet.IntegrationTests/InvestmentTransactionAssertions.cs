@@ -1,4 +1,4 @@
-namespace OfxNet.IntegrationTests;
+﻿namespace OfxNet.IntegrationTests;
 
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

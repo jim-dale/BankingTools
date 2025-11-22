@@ -38,5 +38,5 @@ public class OfxSellMutualFund : OfxSellInvestment
     public string? RelatedInstitutionId { get; init; }
 
     /// <summary>Gets the sell type (<c>SELLTYPE</c>).</summary>
-    required public string SellType { get; init; } = string.Empty;
+    public required string SellType { get; init; } = string.Empty;
 }

@@ -1,4 +1,4 @@
-namespace OfxNet;
+﻿namespace OfxNet;
 
 using System;
 using System.Collections.Generic;

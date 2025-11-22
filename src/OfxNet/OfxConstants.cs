@@ -1,4 +1,5 @@
 ﻿namespace OfxNet;
+
 using System.Globalization;
 
 /// <summary>

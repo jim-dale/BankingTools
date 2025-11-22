@@ -1,4 +1,4 @@
-namespace OfxNet.Investments.Transactions;
+﻿namespace OfxNet.Investments.Transactions;
 
 /// <summary>
 /// Common base class for journal transactions (<c>JOURNALSEC</c> and <c>JOURNALFUND</c>).

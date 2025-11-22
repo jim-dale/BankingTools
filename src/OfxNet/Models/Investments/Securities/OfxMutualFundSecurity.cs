@@ -36,12 +36,12 @@ public class OfxMutualFundSecurity : OfxSecurity
         this.YieldAsOfDate = element.TryGetDateTimeOffset(OfxInvestmentElementConstants.YieldAsOfDateElement, settings);
     }
 
-    /// <summary>Gets or sets the financial institution's asset class breakdown (<c>FIMFASSETCLASS</c>).</summary>
+    /// <summary>Gets the financial institution's asset class breakdown (<c>FIMFASSETCLASS</c>).</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "Simple implementation.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Simple implementation.")]
     public List<OfxAssetClassPortion>? InstitutionAssetClasses { get; init; } = [];
 
-    /// <summary>Gets or sets the asset class breakdown (<c>MFASSETCLASS</c>).</summary>
+    /// <summary>Gets the asset class breakdown (<c>MFASSETCLASS</c>).</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "Simple implementation.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Simple implementation.")]
     public List<OfxAssetClassPortion>? MutualFundAssetClasses { get; init; } = [];

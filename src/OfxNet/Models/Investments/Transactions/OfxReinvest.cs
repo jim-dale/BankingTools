@@ -57,7 +57,7 @@ public class OfxReinvest : OfxInvestmentTransaction
     public decimal? Fees { get; init; }
 
     /// <summary>Gets the income type (<c>INCOMETYPE</c>).</summary>
-    required public string IncomeType { get; init; }
+    public required string IncomeType { get; init; }
 
     /// <summary>Gets the load amount (<c>LOAD</c>).</summary>
     public decimal? Load { get; init; }
@@ -66,7 +66,7 @@ public class OfxReinvest : OfxInvestmentTransaction
     public OfxCurrency? OriginalCurrency { get; init; }
 
     /// <summary>Gets the security identifier (<c>SECID</c>).</summary>
-    required public OfxSecurityId Security { get; init; }
+    public required OfxSecurityId Security { get; init; }
 
     /// <summary>Gets the sub-account for the security (<c>SUBACCTSEC</c>).</summary>
     public string? SubAccountSecurity { get; init; }
@@ -78,11 +78,11 @@ public class OfxReinvest : OfxInvestmentTransaction
     public string? TaxExempt { get; init; }
 
     /// <summary>Gets the total reinvested amount (<c>TOTAL</c>).</summary>
-    required public decimal Total { get; init; }
+    public required decimal Total { get; init; }
 
     /// <summary>Gets the unit price (<c>UNITPRICE</c>).</summary>
-    required public decimal UnitPrice { get; init; }
+    public required decimal UnitPrice { get; init; }
 
     /// <summary>Gets the number of units purchased (<c>UNITS</c>).</summary>
-    required public decimal Units { get; init; }
+    public required decimal Units { get; init; }
 }
